@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="new_invoice_form2">
+        <field name="name">new.invoice.form2</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button
+                    name="%(l10n_ar_afipws_fe.action_afip_ws_consult_wizard)d"
+                    type="action"
+                    attrs="{'invisible': ['&amp;','|',('state', '!=', 'draft'),('state', '!=', 'afip'),'&amp;',('point_of_sale_type', '!=', 'electronic'),('validation_type', '!=', 'production')]}"
+                    string="Recuperar CAE"
+                    class="oe_highlight"
+                    groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

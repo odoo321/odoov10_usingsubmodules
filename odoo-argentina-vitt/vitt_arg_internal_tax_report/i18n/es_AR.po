@@ -1,0 +1,272 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* arg_internal_tax_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-24 18:48+0000\n"
+"PO-Revision-Date: 2017-07-24 16:00-0300\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_AR\n"
+"X-Generator: Poedit 2.0.3\n"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "<strong>Date from :</strong>"
+msgstr "<strong>Fecha desde:</strong>"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "<strong>Date to :</strong>"
+msgstr "<strong>Fecha hasta:</strong>"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "<strong>Difference</strong>"
+msgstr "<strong>Diferencia</strong>"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "<strong>Purchase Tax:</strong>"
+msgstr "<strong>Impuesto Compras:</strong>"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "<strong>Sale Tax:</strong>"
+msgstr "<strong>Impuesto Ventas:</strong>"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.arg_invoice_report_wizard_wizard_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:143
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Custom Dispatch No."
+msgstr "Nro. Despacho Aduana."
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_stock_pack_operation_lot_custom_dispatch_number
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_stock_picking_custom_dispatch_number
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_stock_picking_custom_dispatch_number_fnc
+msgid "Custom Dispatch Number"
+msgstr "Número Despacho de Aduana"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:146
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Customer Invoice No."
+msgstr "Nro. Factura Clte."
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:113
+#, python-format
+msgid "Date from:"
+msgstr "Fecha Desde:"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:114
+#, python-format
+msgid "Date to:"
+msgstr "Fecha Hasta:"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_display_name
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_report_arg_internal_tax_report_internal_taxes_display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_date_to
+msgid "End date"
+msgstr "Fecha Fin"
+
+#. module: arg_internal_tax_report
+#: selection:arg.internal.taxes.report.wizard,format:0
+msgid "Excel"
+msgstr "Excel"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_format
+msgid "Format"
+msgstr "Formato"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_id
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_report_arg_internal_tax_report_internal_taxes_id
+msgid "ID"
+msgstr "ID"
+
+#. module: arg_internal_tax_report
+#: model:ir.actions.act_window,name:arg_internal_tax_report.arg_internal_taxes_report_wizard_act
+#: model:ir.ui.menu,name:arg_internal_tax_report.menu_arg_internal_taxes_report_wizard
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.arg_invoice_report_wizard_wizard_view
+msgid "Internal Taxes"
+msgstr "Impuestos Internos"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:78
+#: model:ir.actions.report.xml,name:arg_internal_tax_report.action_arg_internal_taxes_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Internal Taxes Report"
+msgstr "Informe de Impuestos Internos"
+
+#. module: arg_internal_tax_report
+#: model:ir.actions.report.xml,name:arg_internal_tax_report.action_arg_internal_taxes_report_xls
+msgid "Internal Taxes Report XLS"
+msgstr "Informe Impuestos Internos XLS"
+
+#. module: arg_internal_tax_report
+#: model:ir.model,name:arg_internal_tax_report.model_arg_internal_taxes_report_wizard
+msgid "Internal taxes report"
+msgstr "Informe de Impuestos Internos"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.menu,name:arg_internal_tax_report.menu_inv_report
+msgid "Invoicing Reports"
+msgstr "Informes de Facturación"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard___last_update
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_report_arg_internal_tax_report_internal_taxes___last_update
+msgid "Last Modified on"
+msgstr "Ultima Modificación en"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_write_uid
+msgid "Last Updated by"
+msgstr "Ultima Actualización por"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_write_date
+msgid "Last Updated on"
+msgstr "Ultima Actualización en"
+
+#. module: arg_internal_tax_report
+#: model:ir.model,name:arg_internal_tax_report.model_stock_pack_operation_lot
+msgid "Lot/Serial number for pack ops"
+msgstr "Números de Serie/Lote por operaciones de empaque"
+
+#. module: arg_internal_tax_report
+#: selection:arg.internal.taxes.report.wizard,format:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.arg_invoice_report_wizard_wizard_view
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:139
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Product Code"
+msgstr "Cód. Producto"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:140
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Product Description"
+msgstr "Descripción Producto"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "Purchase Internal Tax"
+msgstr "Imp. Interno Compras"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_purchase_tax_id
+msgid "Purchase Tax Code"
+msgstr "Cód. Imp. Compras"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:111
+#, python-format
+msgid "Purchase Tax:"
+msgstr "Impuesto de Compras:"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:112
+#, python-format
+msgid "Sale Tax:"
+msgstr "Impuesto de Ventas:"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+msgid "Sales Internal Tax"
+msgstr "Imp. Interno Ventas"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_account_tax_id
+msgid "Sales Tax Code"
+msgstr "Cód. Imp. Ventas"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:141
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Serial/Lot No."
+msgstr "Nro. Serie/Lote"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_stock_picking_show_dispatch_number
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_stock_picking_show_dispatch_number_fnc
+msgid "Show custom dispatch number field?"
+msgstr "Mostrar campo de Despacho Aduanero?"
+
+#. module: arg_internal_tax_report
+#: model:ir.model.fields,field_description:arg_internal_tax_report.field_arg_internal_taxes_report_wizard_date_from
+msgid "Start date"
+msgstr "Fecha inicial"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:142
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Stock In Date"
+msgstr "Fecha Entrada Stock"
+
+#. module: arg_internal_tax_report
+#: code:addons/arg_internal_tax_report/report/arg_internal_taxes_report_xls.py:145
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.report_internal_taxes
+#, python-format
+msgid "Stock Out Date"
+msgstr "Fecha Salida Stock"
+
+#. module: arg_internal_tax_report
+#: model:ir.model,name:arg_internal_tax_report.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: arg_internal_tax_report
+#: model:ir.ui.view,arch_db:arg_internal_tax_report.arg_invoice_report_wizard_wizard_view
+msgid "or"
+msgstr "o"
+
+#. module: arg_internal_tax_report
+#: model:ir.model,name:arg_internal_tax_report.model_report_arg_internal_tax_report_internal_taxes
+msgid "report.arg_internal_tax_report.internal_taxes"
+msgstr "report.arg_internal_tax_report.internal_taxes"

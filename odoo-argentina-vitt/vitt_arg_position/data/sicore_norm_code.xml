@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="True">    
+        <record model="sicore.norm.codes" id="arciba_code_1">
+            <field name="comment">Art. 64, Anexo I de Res. 939/13 - COMPAÑIAS DE SEGUROS</field>
+            <field name="name">1</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_2">
+            <field name="comment">Ord. 40434 PROVEEDORES GCBA</field>
+            <field name="name">2</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_3">
+            <field name="comment">Art. 59, Anexo I de Res. 939/13 - OBRAS SOCIALES</field>
+            <field name="name">3</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_4">
+            <field name="comment">Art. 55, Anexo I de Res. 939/13 - T. CREDITO Y DEBITO</field>
+            <field name="name">4</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_5">
+            <field name="comment">Art. 55, Anexo I de Res. 939/13 - SERV. TICKETS, VALES ALIM.</field>
+            <field name="name">5</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_6">
+            <field name="comment">Art. 68, Anexo I de Res. 939/13 - MARTILLEROS</field>
+            <field name="name">6</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_7">
+            <field name="comment">Art. 68, Anexo I de Res. 939/13 - COMISIONISTAS</field>
+            <field name="name">7</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_8">
+            <field name="comment">Res. 918/AGIP/13 – PADRÓN DE RIESGO FISCAL</field>
+            <field name="name">16</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_9">
+            <field name="comment">Art. 121, Anexo I de Res. 939/13- REG. SIMPLIFICADO MAGNITU</field>
+            <field name="name">18</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_10">
+            <field name="comment">Art. 121, Anexo I de Res. 939/13- RETENCION PARCIAL - REG.SIM.</field>
+            <field name="name">19</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_11">
+            <field name="comment">Art. 129, Anexo I de Res. 939/13- IMPOSIBILIDAD DE RETENER</field>
+            <field name="name">20</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_12">
+            <field name="comment">CONTRATACION DE SERV. SUSCRIPCION ON-LINE, PELIC.,TV Y</field>
+            <field name="name">25</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_13">
+            <field name="comment">ACT. CULTURALES Y ARTISTAS - EXTRANJEROS (Res.594/AGIP/2014</field>
+            <field name="name">26</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_14">
+            <field name="comment">MORIGERACION ALICUOTAS POR SALDO A FAVOR - (Res. 816/AGIP/2014)</field>
+            <field name="name">28</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_15">
+            <field name="comment">PADRON DE REGIMENES GENERALES Art. 12 Resolución N 421-AGIP/2016</field>
+            <field name="name">29</field>
+            <field name="operation_type">withholding</field>
+            <field name="tax_scope">supplier</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_16">
+            <field name="comment">Art. 84, Anexo I de Res. 939/13 - COMBUSTIBLES</field>
+            <field name="name">10</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_17">
+            <field name="comment">Art. 84, Anexo I de Res. 939/13 - DERIVADOS DEL PETROLEO</field>
+            <field name="name">11</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_18">
+            <field name="comment">Art. 81, Anexo I de Res. 939/13 - PRODUCTOS COMESTIBLES Y BEBIDAS</field>
+            <field name="name">12</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_19">
+            <field name="comment">Art. 87, Anexo I de REs. 939/13- TERMINALES AUTOMOTRICES Y MOTOCICLETAS</field>
+            <field name="name">15</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_20">
+            <field name="comment">Res. 918/AGIP/13 - PADRON DE RIESGO FISCAL</field>
+            <field name="name">16</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_21">
+            <field name="comment">Art. 107, Anexo I de Res. 939/13 - CANONES Y ALQUILERES SHOPPING</field>
+            <field name="name">17</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_22">
+            <field name="comment">Art. 121, Anexo I de Res. 939/13 - REG. SIMPLIFICADO - MAGNITUDES SUPERADAS</field>
+            <field name="name">18</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_23">
+            <field name="comment">Art. 128, Anexo I de Res. 939/13 - PERCEPCION PARCIAL - REGIMEN SIMPLIFICADO SUPERADAS</field>
+            <field name="name">19</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_24">
+            <field name="comment">Art. 128, Anexo I de Res. 939/13 -IMPOSIBILIDAD DE PERCEPCION - REG. SIMPLIFICADO</field>
+            <field name="name">20</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_25">
+            <field name="comment">Art. 104, Anexo I de Res. 939/13 -CONTRATOS DE FRANQUICIAS</field>
+            <field name="name">21</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_26">
+            <field name="comment">Art. 117, Anexo I de Res. 939/13 -VENTA AL CONTADO Y EFECTIVO - IMPORTE SUPER.</field>
+            <field name="name">22</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_27">
+            <field name="comment">Art. 109, Anexo I de Res. 939/13 -PORTALES DE SUBASTAS ON-LINE CON INSCRIPCION</field>
+            <field name="name">23</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_28">
+            <field name="comment">Art. 113, Anexo I de Res. 969/AGIP/13 - PORTALES DE SUBASTAS ON-LINE CON NOM</field>
+            <field name="name">24</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_29">
+            <field name="comment">Art. 101, Anexo I de Res. 939/13 -VENTA DE TABACO-CIGARROS-CIGARRILLOS Y AF</field>
+            <field name="name">27</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_30">
+            <field name="comment">MORIGERACION ALICUOTAS POR SALDO A FAVOR - (Res. 816/AGIP/2014)</field>
+            <field name="name">28</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+        <record model="sicore.norm.codes" id="arciba_code_31">
+            <field name="comment">PADRON DE REGIMENES GENERALES Art. 16 Resolución N 421-AGIP/2016</field>
+            <field name="name">29</field>
+            <field name="operation_type">perception</field>
+            <field name="tax_scope">sale</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,42 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* detailed_general_ledger_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e-20170707\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-04 18:44+0000\n"
+"PO-Revision-Date: 2018-04-04 18:44+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+#. module: detailed_general_ledger_report
+#: model:ir.ui.view,arch_db:detailed_general_ledger_report.report_financial_line_detailed
+msgid "⇒ journal entries"
+msgstr "Asientos contables"
+
+#. module: detailed_general_ledger_report
+#: model:ir.ui.menu,name:detailed_general_ledger_report.account_reports_argentinean_legal_menu
+msgid "Argentinean Legal Reports"
+msgstr "Informes Legales Argentina"
+
+#. module: detailed_general_ledger_report
+#. openerp-web
+#: model:ir.ui.menu,name:detailed_general_ledger_report.menu_action_detailed_general_ledger
+#: model:ir.actions.client,name:detailed_general_ledger_report.action_account_detailed_general_ledger
+#: code:addons/detailed_general_ledger_report/models/account_detail_general_ledger.py:810
+#, python-format
+msgid "Detailed General Ledger"
+msgstr "Libro Mayor Contable Detallado"
+
+
+
+
+
+
