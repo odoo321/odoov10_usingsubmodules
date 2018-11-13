@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Factura Electrónica Argentina",
-    'version': '10.0.1.0.8',
+    'version': '10.0.1.0.9',
     'category': 'Localization/Argentina',
     'sequence': 14,
     'author': 'Moogah,ADHOC SA, Moldeo Interactive',

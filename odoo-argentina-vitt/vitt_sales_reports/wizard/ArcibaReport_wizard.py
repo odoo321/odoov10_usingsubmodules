@@ -8,8 +8,17 @@ import time
 from . import VATReport_wizard
 import string
 from odoo.exceptions import ValidationError, Warning
+import unicodedata
 
 TWOPLACES = Decimal(10) ** -2
+
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    printable = set(string.printable)
+    res =  u"".join([c for c in nfkd_form if not unicodedata.combining(c)])[:30]
+    return filter(lambda x: x in printable, res)
+
 
 def parse(str):
     printable = set(string.printable)
@@ -208,7 +217,10 @@ class sire_report(models.TransientModel):
                             str1 += "{:0>11}".format(aux)
 
                         str1 += "{:0>1}".format(inv.partner_id.afip_responsability_type_id.arciba_resp_code)
-                        str1 += "{:>30}".format(inv.partner_id.name)
+
+                        tmpstr = remove_accents(inv.partner_id.name)
+
+                        str1 += "{:>30}".format(tmpstr)
                         str1 += "{:0>16}".format("0")
 
                         #t1 = MultiplybyRate(inv.currency_rate, (inv.amount_total - code.amount), inv.company_currency_id,
@@ -317,7 +329,10 @@ class sire_report(models.TransientModel):
                         aux = ""
                 str1 += "{:0>11}".format(aux)
                 str1 += "{:0>1}".format(pay.vendorbill.partner_id.afip_responsability_type_id.arciba_resp_code)
-                str1 += "{:>30}".format(pay.vendorbill.partner_id.name)
+
+                tmpstr = remove_accents(pay.vendorbill.partner_id.name)
+
+                str1 += "{:>30}".format(tmpstr)
                 str1 += "{:0>16}".format("0")
 
                 t1 = sum(pay.vendorbill.tax_line_ids.filtered(lambda r: (r.tax_id.tax_group_id.type == 'tax' and

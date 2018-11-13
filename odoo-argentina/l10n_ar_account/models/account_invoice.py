@@ -183,6 +183,7 @@ class AccountInvoice(models.Model):
 
         # decidimos obtener esto solamente para comprobantes con doc number
         str_number = self.document_number or False
+        print self.document_number
         if str_number:
             if self.document_type_id.code in [33, 99, 331, 332]:
                 point_of_sale = '0'
@@ -239,6 +240,9 @@ class AccountInvoice(models.Model):
                 if afip_concept == '3':
                     afip_concept = '4'
         self.afip_concept = afip_concept
+        if afip_concept == '2':
+            self.afip_service_start = fields.Date.today()
+            self.afip_service_end = fields.Date.today()
 
     @api.multi
     def get_localization_invoice_vals(self):
@@ -457,8 +461,9 @@ class AccountInvoice(models.Model):
 
     @api.onchange('journal_id')
     def onchange_journal_id3(self):
-        self.document_number = False
-        self.use_documents = self.journal_id.use_documents
+        if self.type in ['in_invoice','in_refund']:
+            self.document_number = False
+            self.use_documents = self.journal_id.use_documents
 
     @api.onchange('document_number')
     def onchange_document_number(self):
