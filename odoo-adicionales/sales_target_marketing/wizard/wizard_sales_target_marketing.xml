@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_sales_target_marketing_form" model="ir.ui.view">
+            <field name="name">wizard.sales.target.marketing.form</field>
+            <field name="model">wizard.sales.target.marketing</field>
+            <field name="arch" type="xml">
+                <form string="Sales Target Marketing">
+                    <group><field name="report_by" required="1" style="width:39%"/></group>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="category_ids" widget="many2many_tags"
+                                    attrs="{'invisible': [('report_by', '=', 'prod')], 'required': [('report_by', '=', 'categ')]}"/>
+                            <field name="product_ids" widget="many2many_tags"
+                                    attrs="{'invisible': [('report_by', '=', 'categ')], 'required': [('report_by', '=', 'prod')]}"/>
+                        </group>
+                        <group><field name="end_date"/></group>
+                    </group>
+                    <footer>
+                        <button name="action_print_sales_target_marketing" class="oe_highlight" string="Print"
+                                type="object"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sale_target_marketing_wizard" model="ir.actions.act_window">
+            <field name="name">Sales Target Marketing</field>
+            <field name="res_model">wizard.sales.target.marketing</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_sales_target_marketing_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_sales_target_marketing" name="Sales Target Marketing" parent="sales_team.menu_sales" sequence="120" action="action_sale_target_marketing_wizard"/>
+
+    </data>
+</openerp>

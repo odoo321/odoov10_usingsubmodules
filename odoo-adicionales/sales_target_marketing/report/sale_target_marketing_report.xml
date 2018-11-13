@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="sale_target_marketing_report">
+            <t t-call="report.external_layout">
+                <t t-foreach="doc_ids" t-as="o">
+                <div class="page" width="100%%">
+                    <div class="oe_structure"/>
+                        <center>
+                            <h3 class="text-center text-primary">Sales Target Marketing Report</h3>
+                        </center>
+
+                        <div class="row mt32 mb32" id="informations" style="font-size:15px;">
+                            <div t-if="o.report_by" class="col-xs-3">
+                                <strong>Report By:</strong>
+                                <p t-field="o.report_by"/>
+                            </div>
+	                        <div t-if="o.start_date" class="col-xs-3">
+	                            <strong>Start Date:</strong>
+	                            <p t-field="o.start_date"/>
+	                        </div>
+	                        <div t-if="o.end_date" class="col-xs-3">
+	                            <strong>End Date:</strong>
+	                            <p t-field="o.end_date"/>
+	                        </div>
+	                    </div>
+
+                        <table class="table table-condensed">
+                            <t t-set="column" t-value="1"/>
+                            <t t-set="column_list" t-value="get_column(o)"/>
+                            <thead style="border-bottom:2px solid black;">
+                                <tr>
+                                    <th>Customer</th>
+                                    <t t-foreach="column_list" t-as="each_column">
+                                        <t t-set="column" t-value="column + 1"/>
+                                        <th><span t-esc="each_column.name"/></th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="get_cust_list(o)" t-as="cust">
+                                    <td><span t-esc="cust.get('cust_name')"/></td>
+                                    <t t-foreach="column_list" t-as="each_column">
+                                        <td><span t-esc="get_total_purchase(o, cust.get('partner_id'), each_column)"/></td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

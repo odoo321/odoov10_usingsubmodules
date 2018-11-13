@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report
+            id="tryon_sales_target_marketing_report"
+            string="Sales Target Marketing"
+            model="wizard.sales.target.marketing"
+            report_type="qweb-pdf"
+            file="sales_target_marketing.sale_target_marketing_report"
+            name="sales_target_marketing.sale_target_marketing_report"
+        />
+
+        <record id="a4_paperformat_landscape_sales_target" model="report.paperformat">
+            <field name="name">A4 Landscape Sales Target Report Paper</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[ref('sales_target_marketing.tryon_sales_target_marketing_report')])]"/>
+        </record>
+
+    </data>
+</openerp>
