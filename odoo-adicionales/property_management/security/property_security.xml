@@ -1,0 +1,135 @@
+<odoo>
+    <record id="property_comp_rule" model="ir.rule">
+        <field name="name">PMS Property multi-company</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record id="property_tenancy_comp_rule" model="ir.rule">
+        <field name="name">PMS Property Tenancy multi-company</field>
+        <field name="model_id" ref="model_account_analytic_account"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record id="property_company_schedule" model="ir.rule">
+        <field name="name">Rent Schedule multi-company</field>
+        <field name="model_id" ref="model_tenancy_rent_schedule"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <!--Tenancy Rent Schedul-->
+    <record id="property_tenancy_rent_schedule_owner" model="ir.rule">
+        <field name="name">PMS Property Tenancy Rent Schedule for owner</field>
+        <field name="model_id" ref="model_tenancy_rent_schedule"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('rel_tenant_id','in',user.tenant_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_owner'))]"/>
+    </record>
+
+    <record id="property_tenancy_rent_schedule_user" model="ir.rule">
+        <field name="name">PMS Property Tenancy Rent Schedule for user</field>
+        <field name="model_id" ref="model_tenancy_rent_schedule"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('rel_tenant_id','=',user.tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_user'))]"/>
+    </record>
+
+    <record id="property_tenancy_rent_schedule_agent" model="ir.rule">
+        <field name="name">PMS Property Tenancy Rent Schedule for agent</field>
+        <field name="model_id" ref="model_tenancy_rent_schedule"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('rel_tenant_id','in',user.tenant_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_agent'))]"/>
+    </record>
+
+    <!-- Account Analytic Account-->
+    <record id="property_account_analytic_account_rule_user" model="ir.rule">
+        <field name="name">PMS Property user tenant contract</field>
+        <field name="model_id" ref="model_account_analytic_account"/>
+        <field name="global" eval="True"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
+        <field name="domain_force">[('tenant_id','=',user.tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_user'))]"/>
+    </record>
+
+    <record id="property_account_analytic_account_rule" model="ir.rule">
+        <field name="name">PMS Property owner contract</field>
+        <field name="model_id" ref="model_account_analytic_account"/>
+        <field name="global" eval="True"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+        <field name="domain_force">['|',('tenant_id','in',user.tenant_ids.ids),('property_id.property_manager','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_owner'))]"/>
+    </record>
+
+    <record id="property_account_analytic_account_rule_agent" model="ir.rule">
+        <field name="name">PMS Property agent contract</field>
+        <field name="model_id" ref="model_account_analytic_account"/>
+        <field name="global" eval="True"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+        <field name="domain_force">['|',('tenant_id','in',user.tenant_ids.ids),('property_id.property_manager','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_agent'))]"/>
+    </record>
+
+    <!--Account asset asset-->
+<!--     <record id="property_account_asset_asset_rule" model="ir.rule">
+        <field name="name">PMS Property of owner</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('property_manager','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_owner'))]"/>
+    </record> -->
+
+    <record id="property_account_asset_asset_rule_of_tenant" model="ir.rule">
+        <field name="name">PMS Property of tenant</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('current_tenant_id.parent_id','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_user'))]"/>
+    </record>
+
+    <record id="property_account_asset_asset_rule_agent" model="ir.rule">
+        <field name="name">PMS Property of agent</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('property_manager','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_agent'))]"/>
+    </record>
+
+    <!--Tenant Partner-->
+    <record id="tenant_partner_rule" model="ir.rule">
+        <field name="name">PMS Property Tenant partner detail</field>
+        <field name="model_id" ref="model_tenant_partner"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('id','=',user.tenant_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_user'))]"/>
+    </record>
+    
+    <record id="tenant_partner_owner_rule_two" model="ir.rule">
+        <field name="name">PMS Property Tenant detail</field>
+        <field name="model_id" ref="model_tenant_partner"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id','=',user.company_id.id)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_owner'))]"/>
+    </record>
+
+    <record id="tenant_partner_agent_rule" model="ir.rule">
+        <field name="name">PMS Property Tenant agent detail</field>
+        <field name="model_id" ref="model_tenant_partner"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('id','in',user.tenant_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('property_management.group_property_agent'))]"/>
+    </record>
+
+</odoo>

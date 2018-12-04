@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="property_external_layout_pl">
+   
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t> 
+
+    <t t-call="property_management_extended.external_layout_header_pl1" />
+    <t t-raw="0" />
+    <t t-call="property_management_extended.external_layout_footer_pl1" />
+</template>
+
+<template id="external_layout_header_pl1">
+    <div class="header">
+            <div class="row ">
+                    <div class="col-xs-12 text-center" >
+                        <div t-if="res_company">
+                            <h5 style="font-size: 150%;">
+                                <div style="color:#2F4B93">
+                                    <strong>
+                                        <b>
+
+                                            <span t-field="res_company.rml_header1"/>
+                                        </b>
+                                    </strong>
+                                </div>
+                            </h5>
+                        </div>
+                        <h5 style="font-size: 150%;">
+                            <div t-if="res_company.rml_header">
+                                <div >
+                                    <strong> 
+                                        <span t-field="res_company.name"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </h5>
+                        <h5 style="font-size: 150%;">
+                            <!-- <div t-if="company.rml_header"> -->
+                                <div >
+                                    <strong>
+                                        Partner Ledger
+                                    </strong>
+                                </div>
+                            <!-- </div> -->
+                        </h5>
+                    </div>
+            </div>
+    </div>
+</template>
+<template id="external_layout_footer_pl1">
+    <div class="footer">
+        <div class="text-center col-xs-12">
+             <ul t-if="not res_company.custom_footer" class="list-inline" style="font-size:95%; list-style-type: none;">
+                <li t-if="res_company.website" class="fa fa-info-circle" aria-hidden="true">
+                    <span t-field="res_company.website"/>
+                </li>
+                <li t-if="res_company.email" class="fa fa-envelope" aria-hidden="true">
+                    <span t-field="res_company.email"/>
+                </li>
+                <li t-if="res_company.phone" class="fa fa-phone-square" aria-hidden="true">
+                    <span t-field="res_company.phone"/>
+                </li>
+                <span>|</span> <li t-if="res_company.company_registry" aria-hidden="true">
+                    <span t-field="res_company.company_registry"/>
+                  </li>
+                <span>|</span> <li t-if="res_company.street" aria-hidden="true">
+                    <span t-field="res_company.street"/>
+                </li>
+                <span>|</span> PC.<li t-if="res_company.zip" aria-hidden="true">
+                    <span t-field="res_company.zip"/>
+                </li>
+               <span>|</span><li t-if="res_company.city" aria-hidden="true">
+                    <span t-field="res_company.city"/>
+                </li>
+               <span>|</span> Fax:<li t-if="res_company.fax" aria-hidden="true">
+                    <span t-field="res_company.fax"/>
+                </li>
+            </ul>
+            <t t-if="res_company.custom_footer">
+                <span t-raw="res_company.rml_footer"/>
+            </t>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>      
+</template>
+<template id="account.report_partnerledger">
+    <t t-call="report.html_container">
+        <!-- <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="9"/>
+        <t t-set="data_report_dpi" t-value="110"/> -->
+        <t t-foreach="docs" t-as="o">
+            <t t-call="property_management_extended.property_external_layout_pl">
+                <div class="page">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <strong>Company:</strong>
+                            <p t-esc="res_company.name"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <t t-if="data['form']['date_from']"><strong>Date from :</strong> 
+                            <span t-esc="data['form']['date_from']" /><br/></t>
+                            <t t-if="data['form']['date_to']"><strong>Date to :</strong> <span t-esc="data['form']['date_to']"/></t>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Target Moves:</strong>
+                            <p t-if="data['form']['target_move'] == 'all'">All Entries</p>
+                            <p t-if="data['form']['target_move'] == 'posted'">All Posted Entries</p>
+                        </div>
+                         <div t-if="data['form']['tenancy_ids']" class="col-xs-3">
+                            <strong>Property:</strong>
+                            <p t-esc="data['form']['property_ids']"/>
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>JRNL</th>
+                                <th>Account</th>
+                                <th>Ref</th>
+                                <th>Cheque</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                                <th t-if="data['form']['amount_currency']">Currency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         <!-- <tr t-if='get_intial_balance'>
+                                <td colspan="4">
+                                        <strong t-esc="o.ref"/>
+                                        - <strong t-esc="o.name"/>
+                                </td>
+                                <td></td>
+                                <t t-foreach="data['res1']" t-as='t'>
+                                <td class="text-right">
+                                    <span t-esc="data" />
+                                </td>
+                                <td class="text-right">
+                          
+                                </td>
+                                <td class="text-right">
+                          
+                                </td>
+                            </t>
+                            </tr> -->
+                            <tr>
+                                <td colspan="4">
+                                        <strong t-esc="o.ref"/>
+                                        - <strong t-esc="o.name"/>
+                                </td>
+                                <td></td>
+                                <td class="text-right">
+                                     <t t-if='get_intial_balance'>
+                                    <!-- <t t-set="test_variable" t-value="0" /> -->
+                                     <t t-set="debit" t-value="data['inital_line'][0]['debit'] + sum_partner(data, o, 'debit')" />
+                                    <strong t-esc="debit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></t>
+                                    <!-- <strong t-esc="sum_partner(data, o, 'debit')"/> -->
+                                    <t t-if='not get_intial_balance'>
+                                    <strong t-esc="sum_partner(data, o, 'debit')" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></t>
+                                </td>
+                                <td class="text-right">
+                                    <t t-if='get_intial_balance'>
+                                        <t t-set="credit" t-value="data['inital_line'][0]['credit'] + sum_partner(data, o, 'credit')" />
+                                        <strong t-esc='credit' t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </t>
+                                    <t t-if='not get_intial_balance'>
+                                        <strong t-esc="sum_partner(data, o, 'credit')" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></t>
+                                </td>
+                                <td class="text-right">
+                                      <t t-if='get_intial_balance'>
+                                        <t t-set="balance" t-value="data['inital_line'][0]['balance'] + sum_partner(data, o, 'balance')" />
+                                        <strong t-esc='balance' t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </t>
+                                    <t t-if='not get_intial_balance'>
+                                    <strong t-esc="sum_partner(data, o, 'balance')" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></t>
+                                </td>
+                            </tr>
+                            <tr t-if='get_intial_balance'>
+                                <td colspan="5">- Initial Balance</td>
+                                <td class="text-right">
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('debit'))"/> 
+                                    <!-- <span t-esc="get_intial_balance[0].get('debit')"/>  -->
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('credit'))"/> 
+                                    <!-- <span t-esc="get_intial_balance[0].get('credit')"/>  -->
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('balance'))"/> 
+                                    <!-- <span t-esc="get_intial_balance[0].get('balance')"/>  -->
+                                </td>
+                            </tr>
+                           <!--  <tr>
+                                <td colspan="5">- Initial Balance</td>
+                                <td class="text-right">
+                                    <span t-esc='get_intial_balance'/>
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('debit'))"/> 
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('credit'))"/> 
+                                <span t-esc='data'/>
+                                  
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%.3f'%(get_intial_balance[0].get('balance'))"/> 
+                                </td>
+                            </tr> -->
+                                <!-- <span t-esc="data"/> -->
+                            <tr t-foreach="lines(data, o)" t-as="line">
+                                <td>
+                                    <span t-esc="line['date']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line['code']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line['a_code']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line['displayed_name']"/>
+                                </td>
+                                <td><span t-esc="line['cheque_reference']"/></td>
+                                <td class="text-right">
+                                    <span t-esc="line['debit']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="line['credit']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="line['progress']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </td>
+                                <td class="text-right" t-if="data['form']['amount_currency']">
+                                    <t t-if="line['currency_id']">
+                                      <span t-esc="line['amount_currency']" t-options="{'widget': 'monetary', 'display_currency': line['currency_id']}"/>
+                                    </t>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                   
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+
+
+    <record id="action_account_partner_ledger_filter" model="ir.actions.act_window">
+            <field name="name">Partner Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.report.partner.ledger</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.account_report_partner_ledger_view"/>
+            <field name="context">{'default_partner_ids':active_ids}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_account_partner_ledger_report_filter" model="ir.values">
+            <field name="model_id" ref="account.model_res_partner" />
+            <field name="name">Partner Ledger</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' +str(ref('action_account_partner_ledger_filter'))" />
+            <field name="key">action</field>
+            <field name="model">res.partner</field>
+        </record>
+
+</odoo>

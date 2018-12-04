@@ -1,0 +1,244 @@
+<odoo>
+
+	<template id="handover_external_layout">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t> 
+
+    <t t-call="property_management_extended.handover_layout_header_p1" />
+    <t t-raw="0" />
+    <t t-call="property_management_extended.handover_layout_footer_p1" />
+</template>
+
+<template id="handover_layout_header_p1">
+    <div class="header">
+            <div class="row ">
+                <div class="col-xs-3">
+                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px; max-weight: 120px; align:center;"/>
+                </div>
+                <div class="col-xs-9 mt32 pull-left" style="text-align:justify; text-justify: inter-word;">
+                    <div t-if="company">
+                        <h3 style="font-size: 180%;margin: 0; padding: 0;">
+                        <div style="color:#2F4B93" class='text-center'><strong><b><span t-field="company.rml_header1"/></b></strong></div></h3>
+                    </div>
+                    <h3 class="text-center" style="font-size: 180%;">
+                        <div class='text-center'><strong><span t-field="company.name"/></strong></div>
+                    </h3>
+                </div>
+            </div>     
+    </div>
+</template>
+
+<template id="handover_layout_footer_p1">
+    <div class="footer">
+    	<div class="last-page">
+            <table class="table" width="100%">
+					<tr style="background-color:D4DAE4;">
+						<th width='50%' class='text-left' style='border-bottom: none !important;'>Signature</th>
+						<th width='50%' class='text-center' style='border-bottom: none !important;'>Signature</th>
+					</tr>
+        	</table>
+			<div class="pull-left mt32">
+                <b><span>Tenant/Representative</span></b> 
+            </div>
+            <div class="pull-right mt32" style="padding-right:32px;">
+                <b><span> Landlord /Representative </span></b>
+            </div>
+        </div>
+        <div class="text-center col-xs-12 mt16">
+             <ul t-if="not company.custom_footer" class="list-inline" style="font-size:65%; list-style-type: none;">
+                <!-- <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone"></li> -->
+                <li t-if="company.website" class="fa fa-info-circle" aria-hidden="true">
+                    <span t-field="company.website"/>
+                </li>
+                <li t-if="company.email" class="fa fa-envelope" aria-hidden="true">
+                    <span t-field="company.email"/>
+                </li>
+                <li t-if="company.phone" class="fa fa-phone-square" aria-hidden="true">
+                    <span t-field="company.phone"/>
+                </li>
+                <span>|</span> <li t-if="company.company_registry" aria-hidden="true">
+                    <span t-field="company.company_registry"/>
+                  </li>
+                <span>|</span> <li t-if="company.street" aria-hidden="true">
+                    <span t-field="company.street"/>
+                </li>
+                <span>|</span> PC.<li t-if="company.zip" aria-hidden="true">
+                    <span t-field="company.zip"/>
+                </li>
+               <span>|</span><li t-if="company.city" aria-hidden="true">
+                    <span t-field="company.city"/>
+                </li>
+               <span>|</span> Fax:<li t-if="company.fax" aria-hidden="true">
+                    <span t-field="company.fax"/>
+                </li>
+            </ul>
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>      
+</template>
+
+<template id="report_handover_document">
+	<t t-call="report.html_container">
+		 <t t-foreach="docs" t-as="o">
+		<t t-call="property_management_extended.handover_external_layout">
+			<!-- <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" /> -->
+        	<div class="page">
+            	<!-- <div class="oe_structure" /> -->
+            	<div >
+        			<table class="table" width="90%">
+        				<thead>
+						<tr style="background-color:D4DAE4;">
+							<th width='45%' style='font-weight: bold; font-size:17px'>Handover Document</th>
+							<th width='45%' class='text-right' style='font-weight: bold;'>
+								<span t-field='o.status_we'/> : 
+								<t t-if="o.status_we == '1'">
+									<span t-field='o.wop_date'/>
+								</t>
+								<t t-if="o.status_we == '2'">
+									<span t-field='o.wcl_date'/>
+								</t>
+								</th>
+						</tr>
+					</thead>
+        			</table>
+        			<table class="table table-condensed mt16" width="100%">
+        				<thead>
+						<tr style="background-color:D4DAE4;border-bottom: none !important;">
+							<th width='50%' class='text-left' style='font-weight: bold;border-bottom: none !important;'>Tenant Details</th>
+							<th width='50%' class='text-left' style='font-weight: bold;border-bottom: none !important;'>Property Details</th>
+						</tr>
+					</thead>
+						<tr>
+							<td>
+                                <div style="font-size:14px">
+                                <span t-if="o.tenant_id.name"><span t-field="o.tenant_id.name"/><br/></span>
+                                  <span t-if="o.tenant_id.mobile"><span t-field="o.tenant_id.mobile"/><br/></span>
+                                <span t-if="o.tenant_id.phone"><span t-field="o.tenant_id.phone"/><br/></span>
+                        		<span t-if="o.tenant_id.email">Email: <span t-field="o.tenant_id.email"/></span>
+                                </div>
+                               
+                        	</td>
+                			<td>
+                    			<div style="font-size:14px"> 
+                    				<span t-field="o.property_id.name"/><br/>
+                    			 	<span t-field="o.property_id.parent_id.name"/><br/>
+                                    <t t-if="o.property_id.parent_id.street">
+                                        <span t-field="o.property_id.parent_id.street"/><br/></t>
+                                    <t t-if='o.property_id.parent_id.city'>
+                                    <span t-field="o.property_id.parent_id.city"/><br/></t>
+                                    <t t-if='o.property_id.parent_id.country_id'>
+                                    <span t-field="o.property_id.parent_id.country_id"/><br/></t>
+                                    <t t-if='o.property_id.parent_id.state_id'>
+                                    <span t-field="o.property_id.parent_id.state_id"/><br/></t>
+                                    <t t-if='o.property_id.parent_id.zip'>
+                                    <span t-field="o.property_id.parent_id.zip"/></t>
+                                </div>
+                			</td>
+						</tr>
+        			</table>
+        			<table class="table table-condensed mt16" width="100%">
+        				<thead>
+						<tr style="background-color:D4DAE4;">
+							<th class='text-left' style='border-bottom: none !important;'>Utilities</th>
+							<th class='text-left' style='border-bottom: none !important;'>Account No</th>
+							<th class='text-left' style='border-bottom: none !important;'>Meter No</th>
+							<th class='text-left' style='border-bottom: none !important;'>Reading</th>
+							<th class='text-left' style='border-bottom: none !important;'>Remarks</th>
+						</tr>
+					</thead>
+						<tr>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>Water</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.wacc'/>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.wmeter'/>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<t t-if="o.status_we == '1'">
+									<span t-field='o.wop_reading'/>
+								</t>
+								<t t-if="o.status_we == '2'">
+									<span t-field='o.wcl_reading'/>
+								</t>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.wremarks'/>
+							</td>
+						</tr>
+						<tr>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>Electricity</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.eacc'/>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.emeter'/>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<t t-if="o.status_we == '1'">
+									<span t-field='o.eop_reading'/>
+								</t>
+								<t t-if="o.status_we == '2'">
+									<span t-field='o.ecl_reading'/>
+								</t>
+							</td>
+							<td class='text-left' style='border-bottom: 1px solid #A0AFE3;'>
+								<span t-field='o.eremarks'/>
+							</td>
+						</tr>
+					</table>
+				
+                    <table class="table table-condensed mt16" width="100%">
+					<thead>
+                        <tr style="text-align:center;background-color:D4DAE4;">
+                            <th class='text-left' width='40%' style='font-weight: bold;border-bottom: none !important;'>Gate Pass Number</th>
+                            <th class='text-left' width='15%' style='font-weight: bold;border-bottom: none !important;'>Issued Date</th>
+                            <th class='text-left' width='45%' style='font-weight: bold;border-bottom: none !important;'>Remarks</th>
+                        </tr>
+                    </thead>
+                        <tr class='text-left' t-foreach="o.gate_pass_no" t-as = "g">
+                            <td class='text-left' width='40%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="g.pass_no"/></td>
+                            <td class='text-left' width='15%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="g.date"/></td>
+                            <td class='text-left' width='45%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="g.remarks"/></td>
+                        </tr>
+                    </table>
+                    	<table class="table table-condensed mt16" width="100%">
+						<thead>
+                            <tr style="text-align:center;background-color:D4DAE4;">
+                                <th class='text-left' width='30%' style='font-weight: bold;border-bottom: none !important;'>Furnitures</th>
+                                <th class='text-right' width='20%' style='font-weight: bold;border-bottom: none !important;'>Quantity</th>
+                                <th class='text-left' width='7%' style='font-weight: bold;border-bottom: none !important;'>UOM</th>
+
+                                <th class='text-left' width='63%' style='font-weight: bold;border-bottom: none !important;'>Remarks</th>
+                            </tr>
+                        </thead>
+                            <tr class='text-left' t-foreach="o.furniture_ids" t-as = "f">
+                                <td class='text-left' width='30%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="f.furniture_id.name"/></td>
+                                <td class='text-right' width='20%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="f.quantity"/></td>
+                                <td class='text-left' width='7%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="f.uom_id.name"/></td>
+                                <td class='text-left' width='63%' style='border-bottom: 1px solid #A0AFE3;'><span t-field="f.remarks"/></td>
+                            </tr>
+                    </table>
+            	</div>
+            </div>
+        </t></t>
+    </t>
+</template>
+
+</odoo>

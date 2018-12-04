@@ -1,0 +1,46 @@
+<odoo>
+	<!--Template For Document Expiry Report -->
+	<template id="report_document_expiry">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="property_management.property_external_layout">
+					<div class="page">
+						<div class="row">
+							<br/>
+							<h2>
+								<span><center>Document Expiry</center></span>
+							</h2>
+						</div>
+					
+						<div class="row mt32 mb32">
+							<div class="text-center">
+								<strong>From:</strong>
+								<span t-esc="data['start_date']"/>&#160;&#160;&#160;
+								<strong>To:</strong>
+								<span t-esc="data['end_date']"/>
+							</div>
+						</div>
+						<table width="100%" class="table table-condensed">
+							<tr style="text-align:left;background-color:#e6e6e6;">
+								<th>Description</th>
+								<th>Property</th>
+								<th>Expiry Date</th>
+							</tr>
+							<tr t-foreach="get_details" t-as="t" style='page-break-inside: avoid;'>
+								<td class="text-left">
+									<span t-esc="t.get('name', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('property_id', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('expiry_date', '')"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

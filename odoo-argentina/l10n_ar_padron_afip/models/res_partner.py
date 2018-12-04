@@ -75,7 +75,7 @@ class ResPartner(models.Model):
     @api.multi
     def update_constancia_from_padron_afip(self):
         self.ensure_one()
-        cuit = self.cuit
+        cuit = self.main_id_number
         # cuit = self.cuit_required
 
         # descarga de constancia
@@ -104,15 +104,15 @@ class ResPartner(models.Model):
     @api.multi
     def get_data_from_padron_afip(self):
         self.ensure_one()
-        cuit = self.cuit
+        cuit = self.main_id_number
         #padron = PadronAFIP()
 
-        afip_ws = "ws_sr_padron_a4"
+        afip_ws = "ws_sr_constancia_inscripcion" #"ws_sr_padron_a4"
         padron = self.company_id.get_connection(afip_ws).connect()
-        #try:
-        padron.Consultar(cuit)
-        #except:
-        #    raise UserError(_("CUIT NOT FOUND"))
+        try:
+            padron.Consultar(cuit)
+        except:
+            raise UserError(_("CUIT NOT FOUND"))
 
         # porque imp_iva activo puede ser S o AC
         imp_iva = padron.imp_iva

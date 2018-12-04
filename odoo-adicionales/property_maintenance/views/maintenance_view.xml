@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- maintenance search view Inherited -->
+   <record id="view_maintenance_request_view_search_inherit_search" model="ir.ui.view">
+      <field name="name">maintenance.request.search.expand.filter</field>
+      <field name="model">maintenance.request</field>
+      <field name="inherit_id" ref="maintenance.hr_equipment_request_view_search"/>
+      <field name="arch" type="xml">
+        <xpath expr="//search" position="inside">
+            <field name="property_id"/>
+            <group  expand='0' string='Group by...'>
+                    <filter string='Maintenance Teams' domain="[]" 
+                            context="{'group_by': 'maintenance_team_id'}"/>
+                    <filter string='By Property' domain="[]"
+                            context="{'group_by': 'property_id'}"/>
+            </group>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- maintenance Kanban view Inherited -->
+    <record id="hr_equipment_request_view_kanban_inherited" model="ir.ui.view">
+        <field name="name">maintenance.equipment.request.kanban</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//templates" position="replace">
+                <templates>
+                    <t t-name="kanban-tooltip">
+                        <ul class="oe_kanban_tooltip">
+                            <li>
+                                <b>Property:</b>
+                                <field name="property_id" />
+                            </li>
+                            <li>
+                                <b>Request to:</b>
+                                <field name="technician_user_id" />
+                            </li>
+                        </ul>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div
+                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click oe_semantic_html_override">
+                            <div class="o_dropdown_kanban dropdown">
+
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-bars fa-lg" />
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.editable">
+                                        <li>
+                                            <a type="edit">Edit...</a>
+                                        </li>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <li>
+                                            <a type="delete">Delete</a>
+                                        </li>
+                                    </t>
+                                    <li>
+                                        <ul class="oe_kanban_colorpicker" data-field="color" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content" tooltip="kanban-tooltip">
+                                <div>
+                                    <b>
+                                        <field name="name" />
+                                    </b>
+                                    <br />
+                                    <span class="oe_grey" t-if="record.property_id.raw_value">
+                                        <field name="property_id" />
+                                        <br />
+                                    </span>
+                                    <span name="owner_user_id" t-if="record.owner_user_id.raw_value">
+                                        <field name="owner_user_id" />
+                                        <br />
+                                    </span>
+                                    <span name="request_date" t-if="record.request_date.raw_value">
+                                        <field name="request_date" />
+                                        <br />
+                                    </span>
+
+                                </div>
+                                <div class="oe_kanban_footer_left" style="margin-top:2px;">
+                                    <t t-if="record.message_needaction_counter.raw_value">
+                                        <span class='oe_kanban_mail_new' title='Unread Messages'>
+                                            <i class='fa fa-comments' />
+                                            <t t-raw="record.message_needaction_counter.raw_value" />
+                                        </span>
+                                    </t>
+                                    <span t-if="record.maintenance_team_id.raw_value">
+                                        <field name="maintenance_team_id" />
+                                    </span>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <img
+                                        t-att-src="kanban_image('res.users', 'image_small', record.owner_user_id.raw_value)"
+                                        t-att-title="record.owner_user_id.value" width="24" height="24"
+                                        class="oe_kanban_avatar pull-right" />
+                                    <div class="pull-left" groups="base.group_user">
+                                        <field name="kanban_state" widget="kanban_state_selection" />
+                                        <field name="priority" widget="priority" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                </templates>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Request : views -->
+    <record id="maintenance_property_equipment_request_view_form"
+        model="ir.ui.view">
+        <field name="name">equipment.request.form</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='reset_equipment_request']"
+                position="after">
+                <button name="create_invoice" string="Create Invoice" type="object"
+                    class="btn-primary"
+                    attrs="{'invisible': ['|',('invc_check','=',True),
+                            ('done','!=',True)]}" />
+                <button name="open_invoice" string="Open Invoice" type="object"
+                    class="btn-primary" attrs="{'invisible': [('invc_check','!=',True)]}" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='maintenance_team_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='schedule_date']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='duration']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='owner_user_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='request_date']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='close_date']" position="attributes">
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='technician_user_id']" position="attributes">
+                <attribute name="string">Responsible/Technician</attribute>
+                <attribute name="attrs">{'readonly':[('done','=',True)]}
+                </attribute>
+            </xpath>
+            <field name="owner_user_id" position="before">
+                <field name="property_id" required="1"
+                    attrs="{'readonly':[('done','=',True)]}"
+                    options="{'no_create': True, 'no_create_edit':True}" />
+            </field>
+            <field name="priority" position="before">
+                <field name="cost" string="Cost" attrs="{'readonly':[('done','=',True)]}" />
+                <field name="renters_fault" attrs="{'readonly':[('done','=',True)]}" />
+                <field name="equipment" attrs="{'readonly':[('done','=',True)]}" />
+            </field>
+            <field name="maintenance_type" position="after">
+                <field name="request_from" attrs="{'readonly':[('done','=',True)]}" />
+                <field name="tenant_id"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="email"/>
+            </field>
+            <field name="equipment_id" position="replace" />
+            <field name="category_id" position="replace" />
+            <field name="priority" position="before">
+                <field name="invc_id" readonly="1" />
+                <field name="done" invisible="1" />
+                <field name="date_invoice"/>
+            </field>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Property Address">
+                        <button name="open_google_map" string="Get Location" type="object"
+                            icon="fa-location-arrow" colspan="2" class="oe_inline oe_stat_button" />
+                        <separator string="Property Address" />
+                        <group colspan="4" col="4">
+                            <label for="street" string="Address" />
+                            <div class="o_address_format">
+                                <field name="street" class="o_address_street"
+                                    attrs="{'readonly':[('done','=',True)]}" placeholder="Street.."/>
+                                <field name="street2" class="o_address_street"
+                                    placeholder="Street2..." attrs="{'readonly':[('done','=',True)]}" />
+                                <field name="township" placeholder="Township..." />
+                                <div class="address_format">
+                                    <field name="city" placeholder="City"
+                                        attrs="{'readonly':[('done','=',True)]}" class="o_address_city"
+                                        style="width: 35%%"/>
+                                    <field name="state_id" attrs="{'readonly':[('done','=',True)]}"
+                                        class="o_address_state oe_no_button" placeholder="State"
+                                        style="width: 40%%" options='{"no_open": True}' />
+                                    <field name="zip" placeholder="ZIP"
+                                        attrs="{'readonly':[('done','=',True)]}" class="o_address_zip"
+                                        style="width: 25%%" />
+                                </div>
+                                <field name="country_id" placeholder="Country"
+                                    attrs="{'readonly':[('done','=',True)]}" class="o_address_country oe_no_button"
+                                    options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                            <field name="account_id" domain="[('company_id', '=', company_id)]" required="1"/>
+                            <field name="invc_check" invisible="1" />
+                            <field name="company_id" required="1" />
+                        </group>
+
+                    </page>
+                    <page string="Equipment" attrs="{'invisible': [('equipment','!=',True)]}">
+                        <separator string="If you used any products in maintenance" />
+                        <field name="add_equipment_id">
+                            <tree string="Equipment" editable="top">
+                                <field name="name" />
+                                <field name="quantity" />
+                                <field name="uom_id"/>
+                                <field name="cost" string="Unit Price"/>
+                                <field name="price_subtotal" sum="Total Amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Description">
+                        `
+                        <separator string="Description Related Maintenance" />
+                        <field name='description' placeholder="Internal Note..." />
+                    </page>
+                </notebook>
+            </xpath>
+            <field name="description" position="replace" />
+        </field>
+    </record>
+
+    <record id="maintenance_team_view_form1" model="ir.ui.view">
+        <field name="name">equipment.request.form</field>
+        <field name="model">maintenance.team</field>
+        <field name="inherit_id" ref="maintenance.maintenance_team_view_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="employee_id"/>
+                <field name="company_id"/>
+                <notebook>
+                    <page name="members" string="Team Members">
+                        <field name="member_ids" widget="many2many_kanban" options="{'not_delete': True}">
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field name="name" />
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click" style="position: relative">
+                                            <a t-if="! read_only_mode" type="delete"
+                                                style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                            <div class="oe_module_vignette">
+                                                <img
+                                                    t-att-src="kanban_image('hr.employee', 'image_small', record.id.value)"
+                                                    class="oe_avatar oe_kanban_avatar_smallbox" />
+                                                <div class="oe_module_desc">
+                                                    <field name="name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible"> 1
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_team_view_tree1" model="ir.ui.view">
+        <field name="name">maintenance.team.tree</field>
+        <field name="model">maintenance.team</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Team">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="maintenance.maintenance_team_action_settings" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="res_model">maintenance.team</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="maintenance_team_view_tree1" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a team in the maintenance request.
+            </p>
+        </field>
+    </record>
+    
+     <menuitem
+        id="maintenance.menu_maintenance_title"
+        name="Maintenance"
+        web_icon="maintenance,static/description/icon.png"
+        sequence="110"
+        groups="maintenance.group_equipment_manager,property_maintenance.groups_property_maintenance_manager,property_maintenance.groups_property_maintenance_employee,property_maintenance.groups_property_maintenance_worker"
+        />
+
+<!--     <record id="equipment_product_form" model="ir.ui.view">
+        <field name="name">equipment.product.form</field>
+        <field name="model">equipment.product</field>
+        <field name="arch" type="xml">
+            <form string="Equipment Product">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+   <record id="equipment_product_view_tree1" model="ir.ui.view">
+        <field name="name">equipment.product.tree</field>
+        <field name="model">equipment.product</field>
+        <field name="arch" type="xml">
+            <tree string="Equipment Product">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    
+        <record id="action_equipment_product_view" model="ir.actions.act_window">
+        <field name="name">Equipment Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">equipment.product</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_equipment_product"
+        name="Equipment Product"
+        parent="maintenance.menu_maintenance_configuration"
+        action="action_equipment_product_view" /> -->
+
+</odoo>

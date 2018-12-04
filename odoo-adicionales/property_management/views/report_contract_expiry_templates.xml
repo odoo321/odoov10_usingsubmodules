@@ -1,0 +1,66 @@
+<odoo> 
+	<!--Template For Tenancy Contract Expiry Report -->
+	<template id="report_contract_expiry">
+		<t t-call="report.html_container">
+				<t t-call="property_management.property_external_layout">
+					<div class="page">
+						<div class="row">
+							<br/>
+							<h2>
+								<span><center>Tenancy Contract Expiry</center></span>
+							</h2>
+						</div>
+						<div class="row mt32 mb32">
+							<div class="text-center">
+								<strong>From:</strong>
+								<span t-esc="data['start_date']"/>&#160;&#160;&#160;
+								<strong>To:</strong>
+								<span t-esc="data['end_date']"/>
+							</div>
+						</div>
+						
+                        <table  width="100%" class="table table-condensed">
+                        	<thead>
+							<tr style="text-align:left;background-color:#e6e6e6;">
+								<th>Tenancy</th>
+								<th>Property</th>
+								<th>Tenant</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Rent</th>
+								<th>Rent Type</th>
+								<th>State</th>
+							</tr>
+						</thead>
+							<tr t-foreach="get_details" t-as="t" style='page-break-inside: avoid;'>
+								<td class="text-left">
+									<span t-esc="t.get('name', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('property_id', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('tenant_id', '')"/>
+								</td> 
+								<td class="text-left">
+									<span t-esc="t.get('date_start', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('date', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('rent', '')"/>
+								</td>
+								<td class="text-left">
+									<span t-esc="t.get('rent_type_id', '')"/>&#160;<span t-esc="t.get('rent_type_month', '')"/>
+								</td> 
+								<td class="text-left">
+									<span t-esc="t.get('state', '')"/>
+								</td>
+							</tr>
+						 </table>
+					</div>
+				</t>			
+			</t>
+	</template>
+</odoo>

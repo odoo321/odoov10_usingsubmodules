@@ -1,0 +1,31 @@
+<odoo>
+        <!-- Department Demo-->
+        <record id="hr.dep_administration" model="hr.department">
+            <field name="name">Electrician</field>
+        </record>
+
+       <record id="hr.dep_management" model="hr.department">
+          <field name="name">Plumber</field>
+      </record>
+
+      <record id="hr.dep_rd" model="hr.department">
+          <field name="name">Carpenter</field>
+      </record>
+
+      <record id="hr.dep_ps" model="hr.department">
+          <field name="name">Pest Control</field>
+      </record>
+
+      <record id="hr.dep_sales" model="hr.department">
+          <field name="name">Cleaning</field>
+      </record>
+
+      <record id="dep_pan" model="hr.department">
+          <field name="name">Painting</field>
+      </record>
+
+      <record id="dep_ar" model="hr.department">
+          <field name="name">AC &amp; Refrigerator</field>
+      </record>
+
+</odoo>

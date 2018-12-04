@@ -1,0 +1,231 @@
+<odoo>
+	<!-- inherited property form view -->
+	<record id="inherited_view_asset_form_id" model="ir.ui.view">
+		<field name="name">account.asset.asset.form</field>
+		<field name="model">account.asset.asset</field>
+		<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//page[@name='nearest_place']" position="after">
+				<page name="water_electricity_reading" string="Water &amp; Electricity Meter Reading">
+					<separator string="Water Reading" colspan="4" />
+					<field name="water_reading_id">
+						<tree editable="top">
+							<field name="property_id" invisible="1"/>
+							<field name="wacc"/>
+							<field name="wmeter" />
+							<field name="wop_date" />
+							<field name="wop_reading" />
+							<field name="wcl_date" />
+							<field name="wcl_reading" />
+							<field name="tenancy_id" domain="[('is_property', '=', True)]"/>
+							<field name="remarks" />
+						</tree>
+					</field>
+					<separator string="Electricity Reading" colspan="4" />
+					<field name="electricity_reading_id">
+						<tree editable="top">
+							<field name="eacc"/>
+							<field name="emeter" />
+							<field name="eop_date" />
+							<field name="eop_reading" />
+							<field name="ecl_date" />
+							<field name="ecl_reading" />
+							<field name="tenancy_id" domain="[('is_property', '=', True)]"/>
+							<field name="remarks" />
+						</tree>
+					</field>
+				</page>
+			</xpath>
+            <notebook position="inside">
+                <page string="Furniture Details">
+                    <field name="furniture_ids">
+                         <tree editable="top">
+                            <field name="furniture_id" />
+                            <field name="quantity" />
+                            <field name="uom_id"/>
+                            <field name='tenancy_id' />
+                            <field name="remarks" />
+                            <field name="property_id" invisible='1' />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+		</field>
+	</record> 
+
+		<!-- Property Water Metere reading form view -->
+		<record id='water_meter_reading_view_form' model='ir.ui.view'>
+            <field name="name">water.meter.reading.form</field>
+            <field name="model">water.meter.reading</field>
+            <field name="arch" type="xml">
+                <form string="Water Metere reading">
+                    <sheet>
+                        <group col="4" colspan="4">
+                         	<field name="tenancy_id" domain="[('is_property', '=', True)]"/>
+                            <field name="property_id" required="1"/>
+                            <field name="wacc" />
+                            <field name="wmeter" required="1"/>
+                            <field name="wop_date" />
+                            <field name="wop_reading" />
+                            <field name="wcl_date" />
+                            <field name="wcl_reading" />
+                            
+                            <field name="remarks" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='water_meter_reading_view_tree' model='ir.ui.view'>
+            <field name="name">water.meter.reading.tree</field>
+            <field name="model">water.meter.reading</field>
+            <field name="arch" type="xml">
+                <tree string="Water Metere Logs">
+                    <field name="date" />
+                    <field name="property_id"/>
+                    <field name="tenancy_id" />
+                    <field name="wacc" />
+                    <field name="wmeter" />
+                </tree>
+            </field>
+        </record>
+
+        <record id='water_meter_reading_view_search' model='ir.ui.view'>
+            <field name="name">water.meter.reading.search</field>
+            <field name="model">water.meter.reading</field>
+            <field name="arch" type="xml">
+                <search string="Water Metere" >
+                    <field name="property_id" />
+                    <field name="wmeter"/>
+                    <field name="wacc"/>
+                    <field name="date"/>
+                    <group expand="0" string="Group By">
+                        <filter name="groupby_property" context="{'group_by' : 'property_id'}" string="Property"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="water_meter_reading_view_graph" model="ir.ui.view">
+           <field name="name">water.meter.reading.graph</field>
+           <field name="model">water.meter.reading</field>
+           <field name="arch" type="xml">
+                <graph string="Water Meter Reading">
+                    <field name="property_id" type="row"/>
+                    <field name="wmeter" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id='water_meter_reading_action' model='ir.actions.act_window'>
+            <field name="name">Water Meter Reading</field>
+            <field name="res_model">water.meter.reading</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{"search_default_groupby_property" : True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new water meter reading log.
+              </p>
+            </field>
+        </record>
+		
+<!-- 		<menuitem 
+	       id="meter_reading"
+	       name="Meter Reading Logs"
+	       parent="property_management.menu_property_main"
+	       sequence="3"
+	       />
+        <menuitem action="water_meter_reading_action" parent="meter_reading" id="water_meter_reading_menu"/> -->
+	
+	
+	
+	
+	
+	<!-- Property Electric Meter reading form view -->
+		<record id='electricity_meter_reading_view_form' model='ir.ui.view'>
+            <field name="name">electricity.meter.reading.form</field>
+            <field name="model">electricity.meter.reading</field>
+            <field name="arch" type="xml">
+                <form string="Water Metere reading">
+                    <sheet>
+                        <group col="4" colspan="4">
+                        	<field name="tenancy_id" domain="[('is_property', '=', True)]"/>
+                            <field name="property_id" required="1"/>
+                            <field name="eacc" />
+                            <field name="emeter" required="1"/>
+                            <field name="eop_date" />
+                            <field name="eop_reading" />
+                            <field name="ecl_date" />
+                            <field name="ecl_reading" />
+                            <field name="remarks" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='electricity_meter_reading_view_tree' model='ir.ui.view'>
+            <field name="name">electricity.meter.reading.tree</field>
+            <field name="model">electricity.meter.reading</field>
+            <field name="arch" type="xml">
+                <tree string="Water Metere Logs">
+                    <field name="date" />
+                    <field name="property_id"/>
+                    <field name="tenancy_id" />
+                    <field name="eacc" />
+                    <field name="emeter" />
+                </tree>
+            </field>
+        </record>
+
+        <record id='electricity_meter_reading_view_search' model='ir.ui.view'>
+            <field name="name">electricity.meter.reading.search</field>
+            <field name="model">electricity.meter.reading</field>
+            <field name="arch" type="xml">
+                <search string="Water Metere" >
+                    <field name="property_id" />
+                    <field name="emeter"/>
+                    <field name="eacc"/>
+                    <field name="date"/>
+                    <group expand="0" string="Group By">
+                        <filter name="groupby_property" context="{'group_by' : 'property_id'}" string="Property"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="electricity_meter_reading_view_graph" model="ir.ui.view">
+           <field name="name">electricity.meter.reading.graph</field>
+           <field name="model">electricity.meter.reading</field>
+           <field name="arch" type="xml">
+                <graph string="Electricity Meter Reading">
+                    <field name="property_id" type="row"/>
+                    <field name="emeter" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id='electricity_meter_reading_action' model='ir.actions.act_window'>
+            <field name="name">Electricity Meter Reading</field>
+            <field name="res_model">electricity.meter.reading</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{"search_default_groupby_property" : True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new electricity meter reading log.
+              </p>
+            </field>
+        </record>
+
+ <!--        <menuitem
+        	action="electricity_meter_reading_action"
+        	parent="meter_reading"
+        	name="Electricity Meter reading"
+        	id="electricity_meter_reading_menu"
+        	sequence="2" />
+	 -->
+
+</odoo>

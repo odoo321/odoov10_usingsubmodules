@@ -83,15 +83,11 @@
                             </div>
                             <div class="col-xs-6">
                                 <strong style="display:inline-block;line-height:20px;">Dirección:</strong>
-                                <span t-field="o.company_id.street" />
-                            -
-                                <span t-field="o.company_id.zip" />
-                            -
-                                <span t-field="o.company_id.city" />
-                            -
+                                <span t-field="o.company_id.street" />-
+                                <span t-field="o.company_id.street2" />-
+                                <span t-field="o.company_id.zip" />-
+                                <span t-field="o.company_id.city" />-
                                 <span t-field="o.company_id.state_id" />
-                            .
-                        
                             </div>
                             <div class="col-xs-6">
                                 <span>
@@ -132,6 +128,10 @@
                                 <span t-if="o.partner_id.afip_responsability_type_id">
                                     <strong>Condición IVA: </strong>
                                     <span t-field="o.partner_id.afip_responsability_type_id"/></span>
+                            </div>
+                            <div class="col-xs-6">
+                                <strong style="display:inline-block;line-height:20px;">Domicilio de Entrega: </strong>
+                                <span t-field="o.partner_shipping_id"/>.
                             </div>
                             <div class="col-xs-6">
                                 <strong style="display:inline-block;line-height:20px;">Domicilio Comercial: </strong>

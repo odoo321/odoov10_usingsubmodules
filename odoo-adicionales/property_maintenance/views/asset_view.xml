@@ -1,0 +1,49 @@
+<odoo>
+
+	<!-- Asset : Form -->
+	<record id="prop_maint_button_count" model="ir.ui.view">
+		<field name="name">account.asset.asset.form</field>
+		<field name="model">account.asset.asset</field>
+		<field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='open_entries']" position="after">
+				<button class="oe_inline oe_stat_button" name="open_maintenance"
+					type="object" icon="fa-wrench">
+					<field string="Maintenance Requeted" name="maint_request"
+						widget="statinfo" />
+				</button>
+			</xpath>
+			<xpath expr="//page[@name='utilities']" position="before">
+				<page string="Maintenance" attrs="{'readonly':[('state','in',('sold','close'))]}">
+					<separator string="Maintenance &amp; Repairs" colspan="4" />
+					<field name="maintenance_ids" nolabel="1" readonly="1">
+						<tree string="maintenance Request" decoration-bf="message_needaction==True"
+							create="false">
+							<field name="message_needaction" invisible="1" />
+							<field name="name" />
+							<field name="request_date" />
+							<field name="owner_user_id" />
+							<field name="technician_user_id" />
+							<field name="cost" />
+							<field name="maintenance_type" />
+							<field name="stage_id" />
+						</tree>
+						<form string="Maintenance">
+							<group col="4" colspan="4">
+								<field name="name" />
+								<field name="request_date" />
+								<field name="owner_user_id" />
+								<field name="technician_user_id" />
+								<field name="cost" />
+								<field name="request_date" />
+								<field name="maintenance_type" />
+								<field name="stage_id" />
+							</group>
+						</form>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

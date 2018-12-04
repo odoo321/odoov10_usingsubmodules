@@ -404,6 +404,9 @@ print "Observaciones:", wscdc.Obs
             imp_iva = str("%.2f" % abs(inv.vat_amount))
             imp_subtotal = str("%.2f" % abs(inv.amount_untaxed))
             imp_trib = str("%.2f" % abs(inv.other_taxes_amount))
+            if doc_afip_code in ['11','12','13']: #inovice C type
+                imp_tot_conc = 0
+                imp_neto = str("%.2f" % (abs(inv.amount_total) - abs(inv.other_taxes_amount)))
             imp_op_ex = str("%.2f" % abs(inv.vat_exempt_base_amount))
             moneda_id = inv.currency_id.afip_code
             moneda_ctz = inv.currency_rate

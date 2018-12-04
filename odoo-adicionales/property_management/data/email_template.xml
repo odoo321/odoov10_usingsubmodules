@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+		<!--Email Template For Property Payment Due-->
+		<record id="property_email_template" model="mail.template">
+			<field name="name">Property Payment Mail</field>
+			<field name="email_from">contact@pms.com</field>
+			<!--<field name="email_from">${(object.tenant_id.email or '')|safe}</field-->
+			<field name="subject">Property Payment Due - ${object.name or 'n/a' }</field>
+			<field name="email_to">${(object.tenant_id.email or '')|safe}</field>
+			<field name="partner_to">${(object.tenant_id.parent_id.id or '')}</field>
+			<field name="model_id" ref="property_management.model_account_analytic_account"/>
+				<field name="auto_delete" eval="True"/>
+				<field name="body_html"><![CDATA[
+					<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+					<p>Hello Mr/Mrs/Miss ${object.tenant_id.name },</p>
+					<br/>
+					<p style=" margin-left: 10px;">Your payment For Property <b>${object.name or ''}</b> will be due in next 7 days. </p>
+					<p></p>
+					<p></p>
+					<p style=" margin-left: 10px;"> Kindly proceed the payment </p>
+					<p></p><p></p><br/>
+					<p style="border-left: 1px solid #8e0000; margin-left: 5px;">Best Regards</p>
+					<p>${(object.property_id.name)} </p>
+					</div>
+					]]></field>
+		</record>
+
+		<!--Email template for demand property-->
+		<record id="email_template_demand_property" model="mail.template">
+			<field name="name">Demand Property</field>
+			<field name="email_from">${(object.user_id.login or '')}</field>
+			<field name="subject">Demanded Property</field>
+			<field name="email_to">${(object.email_from or '')|safe}</field>
+			<field name="model_id" ref="property_management.model_crm_lead"/>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html"><![CDATA[
+				<p><left>Hello <strong>${object.contact_name}</strong>.</left></p>
+				<p>This is to inform you that a Property for which you are demanded with following criteria is available Here, Visit Now.
+				</p>
+				&nbsp;&nbsp;<strong>Details :</strong><br/>
+				<p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+				&nbsp;&nbsp;Min. Bedroom : <strong>${object.min_bedroom}</strong><br />
+				&nbsp;&nbsp;Max Bedroom : <strong>${object.max_bedroom}</strong><br />
+				&nbsp;&nbsp;Min. Bathroom : <strong>${object.min_bathroom}</strong><br />
+				&nbsp;&nbsp;Max Bathroom : <strong>${object.max_bathroom}</strong><br />
+				&nbsp;&nbsp;Min. Price : <strong>${object.min_price}</strong><br />
+				&nbsp;&nbsp;Max Price : <strong>${object.max_price}</strong><br />
+				&nbsp;&nbsp;Facing : <strong>${object.facing}</strong><br />
+				&nbsp;&nbsp;Property Type : <strong>${object.type_id.name}</strong><br />
+				&nbsp;&nbsp;Furnishing : <strong>${object.furnished}</strong><br />
+				</p>
+<strong>Thank You</strong>,<br />
+<br />
+			]]></field>
+		</record>
+
+</odoo>

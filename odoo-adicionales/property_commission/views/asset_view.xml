@@ -1,0 +1,14 @@
+<odoo>
+
+    <!-- Asset : Form -->
+    <record id="property_commission_account" model="ir.ui.view">
+        <field name="name">account.asset.asset.inherited.view</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_asset_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="before">
+                <field name="commission_acc_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -3,7 +3,7 @@
 ##################################################################################
 {
     'name': 'Partner Transaction Report',
-    'version': '10.0.0.3',
+    'version': '10.0.0.4',
     'category': 'Accounting',
     'summary': '',
     'description': """

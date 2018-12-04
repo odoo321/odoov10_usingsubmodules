@@ -70,6 +70,7 @@ class account_check_wizard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
 
+        print self.action_type
         for check in self.env['account.check'].browse(self._context.get('active_ids', [])):
             if self.action_type == 'deposit':
                 self.bank_deposited(check, self.journal_id, self.date)
@@ -166,8 +167,12 @@ class account_check_wizard(models.TransientModel):
         if exp_type == '3':
             if amount <= 0:
                 raise UserError(_('You can\'t claim with Zero Amount!'))
-        if check.type == 'issue_check':
-            return check.action_create_debit_note('rejected', partner_type, check.partner_id, account, amount, account_company)
+
+        if last_operation == 'returned':
+            if check.type != 'third_check':
+                return check.action_create_debit_note('returned', partner_type, check.partner_id, account, amount,account_company)
+            else:
+                return check.action_create_debit_note('reclaimed', partner_type, check.partner_id, account, amount,account_company)
         else:
             return check.action_create_debit_note('reclaimed', partner_type, check.partner_id, account, amount, account_company)
 
@@ -240,6 +245,7 @@ class account_check_wizard(models.TransientModel):
             journal_id = operation.origin.journal_id
         except:
             journal_id = None
+        #check.write({'prev_state':check.state})
         if check.state in ['deposited']:
             vals = check.get_bank_vals('bank_reject', journal_id, date)
             move = self.env['account.move'].create(vals)

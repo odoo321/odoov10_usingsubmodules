@@ -109,12 +109,10 @@ class report_bi_vendor_transaction(models.AbstractModel):
                     total_vendor_payment_group, currency)
                 for cpg in total_currency_vendor_payment_group:
                     amount = 0.0
+                    payment_line_currency = cpg.payment_ids and cpg.payment_ids[0].currency_id or cpg.currency2_id
                     amount = sum(cpg.payment_ids.mapped('amount'))
-                    # if cpg.matched_amount != 0.0:
-                    #     amount = cpg.matched_amount
-                    # else:
-                    #     amount = cpg.unmatched_amount
-                    if cpg.currency_id.id != currency.id and cpg.manual_currency_rate:
+
+                    if payment_line_currency.id != currency.id and cpg.manual_currency_rate:
                         amount = amount / cpg.manual_currency_rate
                     grand_total_debit += amount
 
@@ -174,14 +172,16 @@ class report_bi_vendor_transaction(models.AbstractModel):
                     lines.extend(initial_lines)
                 for cpg in currency_vendor_payment_group:
                     payment_amount = 0.0
+                    payment_line_currency = cpg.currency2_id
                     for pay in cpg.payment_ids:
                         payment_amount += pay.amount or 0.0
+                        payment_line_currency = pay.currency_id
 
                     debit = payment_amount
                     amount_in_currency = payment_amount
                     credit = 0.0
 
-                    if cpg.currency_id.id != currency.id and cpg.manual_currency_rate:
+                    if payment_line_currency.id != currency.id and cpg.manual_currency_rate:
                         debit = debit / cpg.manual_currency_rate
 
                     globle_dict_list.append({
@@ -195,7 +195,7 @@ class report_bi_vendor_transaction(models.AbstractModel):
                         'credit':credit,
                         'currency_rate': cpg.manual_currency_rate,
                         'amount_in_currency': amount_in_currency,
-                        'payment_currency': cpg.currency_id,
+                        'payment_currency': payment_line_currency,
                                  })
 
                 sorted_globle_dict_list = sorted(globle_dict_list, key=itemgetter('date'))
@@ -346,12 +346,10 @@ class report_bi_vendor_transaction(models.AbstractModel):
                     total_vendor_payment_group, currency)
                 for cpg in total_currency_vendor_payment_group:
                     amount = 0.0
+                    payment_line_currency = cpg.payment_id and cpg.payment_ids[0].currency_id or cpg.currency2_id
                     amount = sum(cpg.payment_ids.mapped('amount'))
-                    # if cpg.matched_amount != 0.0:
-                    #     amount = cpg.matched_amount
-                    # else:
-                    #     amount = cpg.unmatched_amount
-                    if cpg.currency_id.id != currency.id and cpg.manual_currency_rate:
+
+                    if payment_line_currency.id != currency.id and cpg.manual_currency_rate:
                         amount = amount / cpg.manual_currency_rate
                     grand_total_debit += amount
 
@@ -417,14 +415,16 @@ class report_bi_vendor_transaction(models.AbstractModel):
                     lines.extend(initial_lines)
                 for cpg in currency_vendor_payment_group:
                     payment_amount = 0.0
+                    payment_line_currency = cpg.currency2_id
                     for pay in cpg.payment_ids:
                         payment_amount += pay.amount or 0.0
+                        payment_line_currency = pay.currency_id
 
                     debit = payment_amount
                     amount_in_currency = payment_amount
                     credit = 0.0
 
-                    if cpg.currency_id.id != currency.id and cpg.manual_currency_rate:
+                    if payment_line_currency.id != currency.id and cpg.manual_currency_rate:
                         debit = debit / cpg.manual_currency_rate
 
                     globle_dict_list.append({
@@ -438,7 +438,7 @@ class report_bi_vendor_transaction(models.AbstractModel):
                         'credit': credit,
                         'currency_rate': cpg.manual_currency_rate,
                         'amount_in_currency': amount_in_currency,
-                        'payment_currency': cpg.currency_id,
+                        'payment_currency': payment_line_currency,
                     })
 
                 sorted_globle_dict_list = sorted(globle_dict_list, key=itemgetter('date'))
@@ -565,7 +565,7 @@ class report_bi_vendor_transaction(models.AbstractModel):
                 debit = payment.unmatched_amount and payment.unmatched_amount or payment.amount
                 currency_amount = debit
                 credit = 0.0
-                if payment_group_line.currency_id.id != line_currency.id and payment_group_line.manual_currency_rate:
+                if payment.currency_id.id != line_currency.id and payment_group_line.manual_currency_rate:
                     debit = debit / payment_group_line.manual_currency_rate
                 balance = debit - credit
 
@@ -587,18 +587,20 @@ class report_bi_vendor_transaction(models.AbstractModel):
                     'footnotes': {},
                     'columns': [payment.payment_date, payment.receiptbook_id.display_name, invoice_number, '',
                                 self._formatted(payment_group_line.manual_currency_rate, 6),
-                                self._format(currency_amount, payment_group_line.currency_id),
+                                self._format(currency_amount, payment.currency_id),
                                 self._format(debit, line_currency), self._format(credit, line_currency),
                                 self._format(balance, line_currency)],
                     'level': 1,
                     'unfoldable': False,
                 })
                 #             if payment_group_line.matched_amount != 0.0:
+        payment_line_currency = payment_group_line.payment_ids and payment_group_line.payment_ids[0].currency_id \
+                                or payment_group_line.currency2_id
         for aml in payment_group_line.matched_move_line_ids:
             credit = 0.0
             debit = aml.with_context(payment_group_id=payment_group_line.id).payment_group_matched_amount
             currency_amount = aml.with_context(payment_group_id=payment_group_line.id).payment_group_matched_amount
-            if payment_group_line.currency_id.id != line_currency.id and payment_group_line.manual_currency_rate:
+            if payment_line_currency.id != line_currency.id and payment_group_line.manual_currency_rate:
                 debit = debit / payment_group_line.manual_currency_rate
             balance = debit - credit
 
@@ -619,7 +621,7 @@ class report_bi_vendor_transaction(models.AbstractModel):
                 'footnotes': {},
                 'columns': [aml.date, payment_group_line.receiptbook_id.display_name, invoice_number, '',
                             self._formatted(payment_group_line.manual_currency_rate, 6),
-                            self._format(currency_amount, payment_group_line.currency_id),
+                            self._format(currency_amount, payment_line_currency),
                             self._format(debit, line_currency), self._format(credit, line_currency),
                             self._format(balance, line_currency)],
                 'level': 1,

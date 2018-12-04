@@ -1,0 +1,418 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* receipt_and_payment_journal_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e-20170707\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-05 12:38+0000\n"
+"PO-Revision-Date: 2018-11-05 12:38+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_analytic_tag_id
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_analytic_tag_id
+msgid "Analytic Tag (From Supplier)"
+msgstr "Etiqueta de cuentas analíticas (Del Proveedor)"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1308
+#, python-format
+msgid "Analytic Tags:"
+msgstr "Etiqueta de cuentas analíticas:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1307
+#, python-format
+msgid "Analytic Tags: %s"
+msgstr "Etiqueta de cuentas analíticas: %s"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.view_receipt_and_payment_journal_report_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_confirmed
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_journal_context_report_confirmed
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_confirmed
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1315
+#, python-format
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_detail_level_p
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_detail_level_p
+msgid "Detail Level"
+msgstr "Nivel de Detalle"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1324
+#, python-format
+msgid "Detail Level: %s"
+msgstr "Nivel de Detalle: %s"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_end_date
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_footnotes
+msgid "Footnotes"
+msgstr "Pie Página"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1067
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1070
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1013
+#, python-format
+msgid "Invoice No"
+msgstr "Número de Factura"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_journal_ids
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_journal_context_report_journal_ids
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_journal_ids
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.view_receipt_and_payment_journal_report_wizard
+msgid "Open"
+msgstr "Abrir"
+
+#. module: receipt_and_payment_journal_report
+#: selection:payment.journal.context.report,detail_level:0
+#: selection:receipt.and.payment.journal.report.wizard,detail_level_p:0
+#: selection:receipt.and.payment.journal.report.wizard,detail_level_r:0
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1324
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1269
+#, python-format
+msgid "Overview"
+msgstr "Vista Global"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1067
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1048
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1013
+#, python-format
+msgid "Pay. Amount"
+msgstr "Importe de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1067
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1070
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1013
+#, python-format
+msgid "Pay. Date"
+msgstr "Fecha de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1067
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1070
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#, python-format
+msgid "Pay. No"
+msgstr "Número de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#, python-format
+msgid "Pay. Total"
+msgstr "Total"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:296
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:313
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:368
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:703
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:720
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:773
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:935
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1236
+#: model:ir.ui.menu,name:receipt_and_payment_journal_report.menu_payment_journal_report_wizard
+#, python-format
+msgid "Payment Journal"
+msgstr "Diario de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.report_receipt_and_payment_journal_body
+msgid "Payment Journals"
+msgstr "Diarios de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.menu,name:receipt_and_payment_journal_report.menu_receipt_journal_report_wizard
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:911
+#, python-format
+msgid "Receipt Journal"
+msgstr "Diario de Recibos"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.actions.client,name:receipt_and_payment_journal_report.action_payment_journal_report
+#: model:ir.model,name:receipt_and_payment_journal_report.model_payment_journal_report
+msgid "Payment Journal Report"
+msgstr "Reporte de Diarios de Pago"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.actions.client,name:receipt_and_payment_journal_report.action_receipt_journal_report
+#: model:ir.model,name:receipt_and_payment_journal_report.model_receipt_journal_report
+msgid "Receipt Journal Report"
+msgstr "Reporte de Diarios de Recibo"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.actions.act_window,name:receipt_and_payment_journal_report.action_payment_journal_report_wizard
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_wizard_id
+msgid "Payment Journal Wizard"
+msgstr "Reporte de Diarios de Pagos"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.actions.act_window,name:receipt_and_payment_journal_report.action_receipt_journal_report_wizard
+msgid "Receipt Journal Wizard"
+msgstr "Reporte de Diarios de Recibos"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1298
+#, python-format
+msgid "Payment Journals:"
+msgstr "Diarios de Pago:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1297
+#, python-format
+msgid "Payment Journals: %s"
+msgstr "Diarios de Pago: %s"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_payment_no
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_payment_no
+msgid "Payment No"
+msgstr "Número"
+
+#. module: receipt_and_payment_journal_report
+#: selection:payment.journal.context.report,detail_level:0
+#: selection:receipt.and.payment.journal.report.wizard,detail_level_p:0
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1324
+#, python-format
+msgid "Per Supplier"
+msgstr "Por Proveedor"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_posted
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_journal_context_report_posted
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_posted
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1317
+#, python-format
+msgid "Posted"
+msgstr "Contabilizado"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_account_range
+msgid "Range"
+msgstr "Rango"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_reference
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_reference
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_start_date
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.view_receipt_and_payment_journal_report_wizard
+msgid "Status"
+msgstr "Estados"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1321
+#, python-format
+msgid "Status:"
+msgstr "Estados:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1320
+#, python-format
+msgid "Status: %s"
+msgstr "Estados: %s"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1067
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1073
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_payment_journal_context_report_partner_id
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_partner_id
+#, python-format
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1303
+#, python-format
+msgid "Supplier:"
+msgstr "Proveedor:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1302
+#, python-format
+msgid "Supplier: %s"
+msgstr "Proveedor: %s"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:559
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1237
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.report_payment_journal_body
+#, python-format
+msgid "Total"
+msgstr "Total"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:643
+#, python-format
+msgid "Total "
+msgstr "Total "
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:247
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:250
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:458
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:461
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:854
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:856
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:860
+#, python-format
+msgid "Total Payment Quantity"
+msgstr "Cant. Total Pagos:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:657
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:659
+#, python-format
+msgid "Total per Supplier’s Payments"
+msgstr "Total de Pago por Proveedor"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model,name:receipt_and_payment_journal_report.model_receipt_and_payment_journal_report_wizard
+msgid "Wizard that show the receipt or payment journal report"
+msgstr "Ventana para mostrar el reporte de diarios de pago o recibo"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1013
+#, python-format
+msgid "Receipt No"
+msgstr "Número"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1013
+#, python-format
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:239
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:449
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:452
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:846
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:848
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:852
+#, python-format
+msgid "Total Receipt Quantity"
+msgstr "Cant. Total de Recibos:"
+
+#. module: receipt_and_payment_journal_report
+#: selection:receipt.journal.context.report,detail_level:0
+#: selection:receipt.and.payment.journal.report.wizard,detail_level_r:0
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1269
+#, python-format
+msgid "Per Customer"
+msgstr "Por Cliente"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1303
+#, python-format
+msgid "Customer:"
+msgstr "Cliente:"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1302
+#, python-format
+msgid "Customer: %s"
+msgstr "Cliente: %s"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:650
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:648
+#, python-format
+msgid "Total per Customer’s Payments"
+msgstr "Total de Pago por Clientes"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_journal_context_report_detail_level_r
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_detail_level_r
+msgid "Detail Level"
+msgstr "Nivel de Detalle"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_journal_context_report_receipt_no
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_receipt_no
+msgid "Receipt No"
+msgstr "Número"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.report_receipt_and_payment_journal_body
+msgid "This payment does not have any payment line entered yet."
+msgstr "Este pago aún no tiene ninguna línea de pago ingresada."
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1282
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1272
+#, python-format
+msgid "*. This payment does not have any payment line entered yet."
+msgstr "*. Este pago aún no tiene ninguna línea de pago ingresada."
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.ui.view,arch_db:receipt_and_payment_journal_report.report_receipt_and_payment_journal_body
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:1267
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:1257
+#, python-format
+msgid "Total in Currency"
+msgstr "Total en Moneda"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:237
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:240
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:466
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:469
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:896
+#: code:addons/receipt_and_payment_journal_report/models/payment_journal_report.py:898
+#, python-format
+msgid "Total Payment"
+msgstr "Total de Pagos"
+
+#. module: receipt_and_payment_journal_report
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:892
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:894
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:462
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:465
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:236
+#: code:addons/receipt_and_payment_journal_report/models/receipt_journal_report.py:239
+#, python-format
+msgid "Total Receipt"
+msgstr "Total de Recibos"
+
+#. module: receipt_and_payment_journal_report
+#: model:ir.model.fields,field_description:receipt_and_payment_journal_report.field_receipt_and_payment_journal_report_wizard_company_id
+msgid "Company"
+msgstr "Compañia"

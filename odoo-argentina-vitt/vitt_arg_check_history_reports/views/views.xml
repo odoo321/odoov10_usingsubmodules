@@ -45,7 +45,7 @@
                     </group>
                     <footer>
                         <button string="Ejecutar" name="ex_checkhist_report" type="object" class="oe_highlight"/>
-                        <button name="Print_to_excel" string="Print Excel" type="object" class="oe_highlight"/>
+                        <!-- <button name="Print_to_excel" string="Print Excel" type="object" class="oe_highlight"/> -->
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

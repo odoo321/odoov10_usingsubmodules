@@ -93,9 +93,10 @@ class ReportAccountFollowupReport(models.AbstractModel):
                 })
         return lines
 
-    @api.model
-    def get_template(self):
-        return 'customer_statement_report.report_followup_customer_statement'
+    # @api.model
+    # def get_template(self):
+    #     return 'customer_statement_report.report_followup_customer_statement'
+
 
 
 class AccountReportContextFollowup(models.TransientModel):

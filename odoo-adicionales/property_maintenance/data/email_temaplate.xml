@@ -1,0 +1,20 @@
+<odoo>
+        <!--Email template -->
+        <record id="email_template_invoice_id" model="mail.template">
+            <field name="name">Invoice - Send by Email</field>
+            <field name="email_from"></field>
+            <field name="subject">${object.company_id.name} Invoice</field>
+            <field name="partner_to">${object.company_id.partner_id.id}</field>
+            <field name="model_id" ref="property_maintenance.model_invoice_to_owner"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="property_maintenance.invoice_to_owner_reports_id1"/>
+            <field name="report_name">Invoice</field>
+            <field name="lang">${object.company_id.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.company_id.name}</p>
+            <p>Here I have attached maintenance invoices From <strong>${(object.start_date.split('-')[2]).split(' ')[0] + '-' + object.start_date.split('-')[1] + '-' + object.start_date.split('-')[0]}</strong> To <strong>${(object.end_date.split('-')[2]).split(' ')[0] + '-' + object.end_date.split('-')[1] + '-' + object.end_date.split('-')[0]}</strong>
+            date.
+            <p>Thank you</p>
+            ]]></field>
+        </record>
+</odoo>

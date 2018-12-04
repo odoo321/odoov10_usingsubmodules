@@ -16,7 +16,7 @@ class AccountInvoice(models.Model):
                     raise UserError(_('Please, Complete Partner fields main id number, category and responsability type first'))
                 domain = [
                     ('type', 'in', ['in_invoice', 'in_refund']),
-                    ('state', '!=', 'draft'),
+                    ('state', 'not in', ['draft','cancel']),
                     ('partner_id', '=', rec.partner_id.id),
                     ('document_number', '=', rec.document_number),
                     ('journal_document_type_id','=',rec.journal_document_type_id.id),
@@ -112,3 +112,9 @@ class AccountInvoice(models.Model):
 
         return super(AccountInvoice, self).assign_outstanding_credit(credit_aml_id)
 
+
+class AccountInvoiceRefund(models.TransientModel):
+    _inherit = 'account.invoice.refund'
+
+    filter_refund = fields.Selection([('refund', 'Create a draft refund'), ('modify', 'Modify: create refund, reconcile and create a new draft invoice')],
+        default='refund', string='Refund Method', required=True, help='Refund base on this type. You can not Modify and Cancel if the invoice is already reconciled')

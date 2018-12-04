@@ -113,6 +113,53 @@ class sales_reports(models.TransientModel):
                     arrayvat['IVA 2.50%'] += total
         return arrayvat
 
+    def get_new_array(self):
+        # 1-  'IVA 10.50%' = 4
+        # 2-  'IVA 21%'    = 5
+        # 3-  'IVA 27%'    = 6
+        # 4-  'IVA 5%'     = 8
+        # 5-  'IVA 2.50%'  = 9
+        # 6-  'exempt'     = 2
+        # 7-  'novat'      = 1
+        # 8-  'nett' = [3,4,5,6,8,9]
+        # 9-  'perception' => type = 'perception' & tax = 'vat'
+        # 10- 'grossincome' => type = 'perception' & tax = 'gross_income'
+
+        # id's of vats
+        s1 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 4),('vatreport_included', '=', True)]).ids
+        s2 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 5),('vatreport_included', '=', True)]).ids
+        s3 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 6),('vatreport_included', '=', True)]).ids
+        s4 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 8),('vatreport_included', '=', True)]).ids
+        s5 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 9),('vatreport_included', '=', True)]).ids
+        s6 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 2),('vatreport_included', '=', True)]).ids
+        s7 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', '=', 1),('vatreport_included', '=', True)]).ids
+        s8 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'vat'),('tax_group_id.afip_code', 'in', [3,4,5,6,8,9]),('vatreport_included', '=', True)]).ids
+        s9 = self.env['account.tax'].search([('tax_group_id.type', '=', 'perception'),('tax_group_id.tax', '=', 'vat'),('vatreport_included', '=', True)]).ids
+        s10 = self.env['account.tax'].search([('tax_group_id.type', '=', 'perception'),('tax_group_id.tax', '=', 'gross_income'),('vatreport_included', '=', True)]).ids
+        s11 = self.env['account.tax'].search([('tax_group_id.type', '=', 'tax'),('tax_group_id.tax', '=', 'other'),('tax_group_id.afip_code', '=', 4),('vatreport_included', '=', True)]).ids
+
+        return {'IVA 10.50%':s1,'IVA 21%':s2,'IVA 27%':s3,'IVA 5%':s4,'IVA 2.50%':s5,'exempt':s6,'novat':s7,'nett':s8,'perception':s9,'grossincome':s10,'other':s11}
+
+    def fill_array(self,new_array,invoices):
+        new_vat_array = OrderedDict()
+        var = total = 0.0
+        for inv in invoices:
+            new_vat_array[inv.id] = {'IVA 10.50%':0.0,'IVA 21%':0.0,'IVA 27%':0.0,'IVA 5%':0.0,'IVA 2.50%':0.0,'exempt':0.0,'novat':0.0,'nett':0.0,'perception':0.0,'grossincome':0.0,'other':0.0}
+            for line in inv.tax_line_ids:
+                for tax in new_array:
+                    if line.tax_id.id in new_array[tax]:
+                        if tax in ['exempt','novat','nett']:
+                            var = line.base
+                        else:
+                            var = line.amount
+
+                        total = float(MultiplybyRate(inv.currency_rate, var, inv.company_currency_id, inv.currency_id))
+                        if inv.document_type_id.internal_type == 'credit_note':
+                            total *= -1
+                        new_vat_array[inv.id][tax] += float(Decimal(total).quantize(TWOPLACES))
+        return new_vat_array
+
+
     def Print_to_excel(self):
         context = self._context
         filename= 'Libro_IVA_Compras.xls'
@@ -134,9 +181,11 @@ class sales_reports(models.TransientModel):
             domain.append(('journal_id.id', 'in', list(self.journal_ids._ids)))
 
         invoiceModel = self.env['account.invoice']
-        invoices = invoiceModel.search(domain,order="date_invoice")
-        vatarray = self.gettotalsperVAT(invoices)
-        vattot = {}
+        invoices = invoiceModel.search(domain,order="date_invoice,display_name2")
+        #vatarray = self.gettotalsperVAT(invoices)
+        vatarray = {}
+        new_array = self.get_new_array()
+        new_vat_array = self.fill_array(new_array,invoices)
 
         # Titles
         worksheet.write(0, 0, _('Nombre del Informe: Libro IVA Compras'))
@@ -147,6 +196,13 @@ class sales_reports(models.TransientModel):
                         date_froms[8:10] + '-' + date_froms[5:7] + '-' + date_froms[0:4]
                         + ':' + date_tos[8:10] + '-' + date_tos[5:7] + '-' + date_tos[0:4])
 
+
+        vattot = OrderedDict()
+        vattot['IVA 21%'] = 0.00
+        vattot['IVA 10.50%'] = 0.00
+        vattot['IVA 27%'] = 0.00
+        vattot['IVA 5%'] = 0.00
+        vattot['IVA 2.50%'] = 0.00
 
         #columns
         index = 5
@@ -168,7 +224,7 @@ class sales_reports(models.TransientModel):
             subindex += 1
             worksheet.write(index,subindex,_('Neto Gravado'))
             subindex += 1
-            for key in vatarray:
+            for key in vattot:
                 worksheet.write(index,subindex, key)
                 subindex += 1
             worksheet.write(index,subindex,_('Exento'))
@@ -222,13 +278,6 @@ class sales_reports(models.TransientModel):
         gettotinttaxes = 0
         tot1 = tot2 = tot3 = tot4 = tot5 = tot6 = 0
 
-        vattot = OrderedDict()
-        vattot['IVA 21%'] = 0.00
-        vattot['IVA 10.50%'] = 0.00
-        vattot['IVA 27%'] = 0.00
-        vattot['IVA 5%'] = 0.00
-        vattot['IVA 2.50%'] = 0.00
-
         matrix = {}
         matrixbase = {}
         vatcodes = {}
@@ -265,39 +314,45 @@ class sales_reports(models.TransientModel):
                     worksheet.write(index, subindex,  o.partner_id.name)
                     subindex += 1
 
-                    tot = o.camount_untaxed()
+                    #tot = o.camount_untaxed()
+                    tot = new_vat_array[o.id]['nett']
                     worksheet.write(index, subindex, tot)
                     camount_untaxed += tot
                     subindex += 1
 
                     #worksheet.write(index, 11, o.gettotvat())
-                    vatarray = self.gettotalsperVAT(o)
-                    for key in vatarray:
-                        worksheet.write(index, subindex, vatarray[key])
-                        vattot[key] += vatarray[key]
+                    #vatarray = self.gettotalsperVAT(o)
+                    for key in vattot:
+                        worksheet.write(index, subindex, new_vat_array[o.id][key])
+                        vattot[key] += new_vat_array[o.id][key]
                         subindex += 1
 
-                    tot = o.gettotexempt()
+                    #tot = o.gettotexempt()
+                    tot = new_vat_array[o.id]['exempt']
                     worksheet.write(index, subindex, tot)
                     gettotexempt += tot
                     subindex += 1
 
-                    tot = o.gettotpercep()
+                    #tot = o.gettotpercep()
+                    tot = new_vat_array[o.id]['perception']
                     worksheet.write(index, subindex, tot)
                     gettotpercep += tot
                     subindex += 1
 
-                    tot = o.gettotgrossincome()
+                    #tot = o.gettotgrossincome()
+                    tot = new_vat_array[o.id]['grossincome']
                     worksheet.write(index, subindex, tot)
                     gettotgrossincome += tot
                     subindex += 1
 
-                    tot = o.gettotinttaxes()
+                    #tot = o.gettotinttaxes()
+                    tot = new_vat_array[o.id]['other']
                     worksheet.write(index, subindex, tot)
                     gettotinttaxes += tot
                     subindex += 1
 
-                    tot = o.gettotnovat()
+                    #tot = o.gettotnovat()
+                    tot = new_vat_array[o.id]['novat']
                     worksheet.write(index, subindex, tot)
                     gettotnovat += tot
                     subindex += 1
@@ -312,20 +367,13 @@ class sales_reports(models.TransientModel):
                         if vat.tax_id.vatreport_included:
                             amount = float(MultiplybyRate(o.currency_rate, vat.amount, o.company_currency_id, o.currency_id))
                             base = float(MultiplybyRate(o.currency_rate, vat.base, o.company_currency_id, o.currency_id))
+                            name_key = o.partner_id.afip_responsability_type_id.name
+
                             if vat.name in vatcodes:
                                 vatcodes[vat.name] += amount
                             else:
                                 vatcodes.update({vat.name: amount})
 
-                            if vat.name in vatcodesbase:
-                                vatcodesbase[vat.name] += base
-                            else:
-                                vatcodesbase.update({vat.name: base})
-
-                    for vat in o.tax_line_ids:
-                        if vat.tax_id.vatreport_included:
-                            amount = float(MultiplybyRate(o.currency_rate, vat.amount, o.company_currency_id, o.currency_id))
-                            base = float(MultiplybyRate(o.currency_rate, vat.base, o.company_currency_id, o.currency_id))
                             if vat.amount > 0:
                                 if o.document_type_id.internal_type == 'credit_note':
                                     monto = -amount
@@ -337,18 +385,14 @@ class sales_reports(models.TransientModel):
                                 else:
                                     monto = base
 
-                            if not o.partner_id.afip_responsability_type_id.name in matrix.keys():
-                                matrix[o.partner_id.afip_responsability_type_id.name] = {vat.name:monto}
+                            if not name_key in matrix.keys():
+                                matrix[name_key] = {vat.name:monto}
                             else:
-                                if not vat.name in matrix[o.partner_id.afip_responsability_type_id.name].keys():
-                                    matrix[o.partner_id.afip_responsability_type_id.name].update({vat.name:monto})
+                                if not vat.name in matrix[name_key].keys():
+                                    matrix[name_key].update({vat.name:monto})
                                 else:
-                                    matrix[o.partner_id.afip_responsability_type_id.name][vat.name] += monto
+                                    matrix[name_key][vat.name] += monto
 
-                    for vat in o.tax_line_ids:
-                        if vat.tax_id.vatreport_included:
-                            amount = float(MultiplybyRate(o.currency_rate, vat.amount, o.company_currency_id, o.currency_id))
-                            base = float(MultiplybyRate(o.currency_rate, vat.base, o.company_currency_id, o.currency_id))
                             if vat.amount > 0:
                                 if o.document_type_id.internal_type == 'credit_note':
                                     monto = -base
@@ -360,13 +404,13 @@ class sales_reports(models.TransientModel):
                                 else:
                                     monto = amount
 
-                            if not o.partner_id.afip_responsability_type_id.name in matrixbase.keys():
-                                matrixbase[o.partner_id.afip_responsability_type_id.name] = {vat.name:monto}
+                            if not name_key in matrixbase.keys():
+                                matrixbase[name_key] = {vat.name:monto}
                             else:
-                                if not vat.name in matrixbase[o.partner_id.afip_responsability_type_id.name].keys():
-                                    matrixbase[o.partner_id.afip_responsability_type_id.name].update({vat.name:monto})
+                                if not vat.name in matrixbase[name_key].keys():
+                                    matrixbase[name_key].update({vat.name:monto})
                                 else:
-                                    matrixbase[o.partner_id.afip_responsability_type_id.name][vat.name] += monto
+                                    matrixbase[name_key][vat.name] += monto
 
                 else:
                     worksheet.write(index, subindex, o.date_invoice)
@@ -404,28 +448,28 @@ class sales_reports(models.TransientModel):
                     worksheet.write(index, subindex, str(tot))
                     subindex += 1
 
-                    worksheet.write(index, subindex, str(o.camount_untaxed()))
+                    worksheet.write(index, subindex, str(new_vat_array[o.id]['nett']))
                     tot2 += o.camount_untaxed()
                     subindex += 1
 
-                    worksheet.write(index, subindex, str(o.gettotexempt() + o.gettotnovat()))
-                    tot3 += o.gettotexempt() + o.gettotnovat()
+                    worksheet.write(index, subindex, str(new_vat_array[o.id]['exempt'] + new_vat_array[o.id]['novat']))
+                    tot3 += new_vat_array[o.id]['exempt'] + new_vat_array[o.id]['novat']
                     subindex += 1
 
                     tot = 0.0
-                    vatarray = self.gettotalsperVAT(o)
-                    for key in vatarray:
-                        tot += vatarray[key]
+                    #vatarray = self.gettotalsperVAT(o)
+                    for key in vattot:
+                        tot += new_vat_array[o.id][key]
                     tot4 += tot
                     worksheet.write(index, subindex, str(tot))
                     subindex += 1
 
-                    tot = o.gettotpercep() + o.gettotgrossincome()
+                    tot = new_vat_array[o.id]['perception'] + new_vat_array[o.id]['grossincome']
                     tot5 += tot
                     worksheet.write(index, subindex, tot)
                     subindex += 1
 
-                    tot = o.gettotinttaxes()
+                    tot = new_vat_array[o.id]['other']
                     tot6 += tot
                     worksheet.write(index, subindex, tot)
                     subindex += 1
@@ -463,6 +507,7 @@ class sales_reports(models.TransientModel):
             worksheet.write(index, subindex, _("Totales"))
             subindex += 1
 
+            # print matrix
             totgrp = 0
             for type in matrix:
                 index += 1
@@ -485,8 +530,6 @@ class sales_reports(models.TransientModel):
                 subindex += 1
                 totgrp = 0
 
-            #print matrix
-
         else:
             subindex = 7
             worksheet.write(index, subindex, tot1)
@@ -501,6 +544,7 @@ class sales_reports(models.TransientModel):
             subindex += 1
             worksheet.write(index, subindex, tot6)
             subindex += 1
+
 
 
         fp = StringIO()

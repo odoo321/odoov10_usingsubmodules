@@ -22,6 +22,7 @@ class AfipwsConnection(models.Model):
             ('wsbfe', 'Bono Fiscal -con detalle- RG2557 (WSBFE)'),
             ('wscdc', 'Constatación de Comprobantes (WSCDC)'),
             ('ws_sr_padron_a4', 'Constatación de CUIT (ws_sr_padron_a4)'),
+            ('ws_sr_constancia_inscripcion', 'Constatación de CUIT (ws_sr_padron_a5)'),
         ])
 
     @api.model
@@ -48,6 +49,12 @@ class AfipwsConnection(models.Model):
             if self.type == 'production':
                 ws.HOMO = False
                 ws.WSDL = "https://aws.afip.gov.ar/sr-padron/webservices/personaServiceA4?wsdl"
+        elif afip_ws == "ws_sr_constancia_inscripcion":
+            from pyafipws.ws_sr_padron import WSSrPadronA5
+            ws = WSSrPadronA5()
+            if self.type == 'production':
+                ws.HOMO = False
+                ws.WSDL = "https://aws.afip.gov.ar/sr-padron/webservices/personaServiceA5?wsdl"
 
         return ws
 
@@ -102,4 +109,11 @@ class AfipwsConnection(models.Model):
             else:
                 afip_ws_url = (
                     'https://awshomo.afip.gov.ar/sr-padron/webservices/personaServiceA4')
+        elif afip_ws == 'ws_sr_constancia_inscripcion':
+            if environment_type == 'production':
+                afip_ws_url = (
+                    'https://aws.afip.gov.ar/sr-padron/webservices/personaServiceA5')
+            else:
+                afip_ws_url = (
+                    'https://awshomo.afip.gov.ar/sr-padron/webservices/personaServiceA5')
         return afip_ws_url

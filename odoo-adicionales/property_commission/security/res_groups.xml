@@ -1,0 +1,11 @@
+<odoo>
+        <record id="category_commission_pay" model="ir.module.category">
+            <field name="name">Commission</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="groups_commission_pay_manager" model="res.groups">
+            <field name="name">Commission Manager1</field>
+            <field name="category_id" ref="property_commission.category_commission_pay" />
+        </record>
+</odoo>

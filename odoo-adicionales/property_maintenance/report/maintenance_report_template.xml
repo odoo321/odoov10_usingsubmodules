@@ -1,0 +1,147 @@
+<odoo>
+
+
+<template id="property_external_layout_maintenance">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t> 
+
+    <t t-call="property_maintenance.external_layout_header_maintenance" />
+    <t t-raw="0" />
+    <t t-call="property_maintenance.external_layout_footer_mainte" />
+</template>
+
+<template id="external_layout_header_maintenance">
+    <div class="header">
+            <div class="row">
+                    <div class="col-xs-3 pull-left">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px; max-weight: 120px; align:center;" />
+                    </div>
+                    <div class="col-xs-8 mt32 text-center">
+                        <div t-if="company">
+                            <h3 style="font-size: 180%;margin: 0; padding: 0;">
+                            <div style="color:#2F4B93"><strong><b><span t-field="company.rml_header1"/></b></strong></div></h3>
+                        </div>
+                        <h3 class="text-center" style="font-size: 180%;">
+                        <div t-if="company.rml_header">
+                            <div ><strong><span t-field="company.name"/></strong></div>
+                        </div></h3>
+                    </div>
+            </div>
+    </div>
+</template>
+<template id="external_layout_footer_mainte">
+    <div class="footer">
+        <div class="text-center col-xs-12">
+             <ul t-if="not company.custom_footer" class="list-inline" style="font-size:65%; list-style-type: none;">
+                <!-- <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone"></li> -->
+                <li t-if="company.website" class="fa fa-info-circle" aria-hidden="true">
+                    <span t-field="company.website"/>
+                </li>
+                <li t-if="company.email" class="fa fa-envelope" aria-hidden="true">
+                    <span t-field="company.email"/>
+                </li>
+                <li t-if="company.phone" class="fa fa-phone-square" aria-hidden="true">
+                    <span t-field="company.phone"/>
+                </li>
+                <span>|</span> <li t-if="company.company_registry" aria-hidden="true">
+                    <span t-field="company.company_registry"/>
+                  </li>
+                <span>|</span> <li t-if="company.street" aria-hidden="true">
+                    <span t-field="company.street"/>
+                </li>
+                <span>|</span> PC.<li t-if="company.zip" aria-hidden="true">
+                    <span t-field="company.zip"/>
+                </li>
+               <span>|</span><li t-if="company.city" aria-hidden="true">
+                    <span t-field="company.city"/>
+                </li>
+               <span>|</span> Fax:<li t-if="company.fax" aria-hidden="true">
+                    <span t-field="company.fax"/>
+                </li>
+            </ul>
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+	<template id="maintenance_report_template">
+		<t t-call="report.html_container">
+			<t t-call="property_maintenance.property_external_layout_maintenance">
+				<div class="page">
+					<div class="row mb32">
+						<center>
+							<h3>Maintenance Report</h3>
+						</center>
+						<div class="text-center">
+							<strong>From:</strong>
+							<span t-esc="data['start_date']" />
+							&#160;&#160;&#160;
+							<strong>To:</strong>
+							<span t-esc="data['end_date']" />
+						</div>
+					</div>
+					<table style="border:solid 1px #000000" width="100%"
+						class="table table-bordered">
+						<tr style="text-align:left;background-color:#e6e6e6;">
+							<th style="border: 1px solid #000000;">Maintenance Subjet</th>
+							<th style="border: 1px solid #000000;">Property Name</th>
+							<th style="border: 1px solid #000000;">Company</th>
+							<th style="border: 1px solid #000000;">Type</th>
+							<th style="border: 1px solid #000000;">Close Date</th>
+							<th style="border: 1px solid #000000;">Cost</th>
+						</tr>
+						<t t-foreach="get_data" t-as="t">
+							<tr style="text-align:left; page-break-inside: avoid;">
+								<td style="border: 1px solid #000000;">
+									<span t-esc="t.get('name','')" />
+								</td>
+								<td style="border: 1px solid #000000;">
+									<span t-esc="t.get('property_name','')" />
+								</td>
+								<td style="border: 1px solid #000000;">
+									<span t-esc="t.get('owner_company','')" />
+								</td>
+								<td align="center" style="border: 1px solid #000000;">
+									<span t-esc="t.get('maintenance_type','')" />
+								</td>
+								<td align="center" style="border: 1px solid #000000;">
+									 <span t-esc="t.get('close_date','')" />
+								</td>
+								<td align="center" style="border: 1px solid #000000;">
+									<span t-esc="t.get('maintenance_cost','')" />
+								</td>
+							</tr>
+						</t>
+						<tr style="text-align:center;">
+							<td style="border:1px solid #000000;" colspan="5">
+								<b>Total Cost:</b>
+							</td>
+							<td align="center" style="border:1px solid #000000;">
+								<b>
+									<span t-esc="get_total" />
+								</b>
+
+							</td>
+						</tr>
+					</table>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

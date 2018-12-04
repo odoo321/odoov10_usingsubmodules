@@ -1,0 +1,51 @@
+<odoo>
+
+    <record id="furniture_details_form" model="ir.ui.view">
+        <field name="name">furniture.allocation.details.form</field>
+        <field name="model">furniture.allocation.details</field>
+        <field name="arch" type="xml">
+            <form string="Furniture Detials">
+                <sheet>
+                    <group>
+                        <field name="name" required='1'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--furniture Type Tree View -->
+    <record id="furniture_type_tree" model="ir.ui.view">
+        <field name="name">furniture.allocation.details.tree</field>
+        <field name="model">furniture.allocation.details</field>
+        <field name="arch" type="xml">
+            <tree string="Furniture Details">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--furniture Type Search View -->
+    <record id="furniture_type_view_search" model="ir.ui.view">
+        <field name="name">furniture.allocation.details</field>
+        <field name="model">furniture.allocation.details</field>
+        <field name="arch" type="xml">
+            <search string="Search Furniture">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for furniture Tenancy Views -->
+    <record id="action_furniture_type_view" model="ir.actions.act_window">
+        <field name="name">Furniture Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">furniture.allocation.details</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_furniture_type" name="Furniture Type" parent="property_management.menu_types_main"
+        action="action_furniture_type_view" />
+
+</odoo>

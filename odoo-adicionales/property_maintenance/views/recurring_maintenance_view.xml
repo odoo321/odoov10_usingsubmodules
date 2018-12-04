@@ -1,0 +1,181 @@
+<odoo>
+
+	<!-- Recurring Maintenance Form View -->
+	<record id="recurring_maintenance_type_form" model="ir.ui.view">
+		<field name="name">recurring.maintenance.type.form</field>
+		<field name="model">recurring.maintenance.type</field>
+		<field name="arch" type="xml">
+			<form string="Recurring Maintenance Type">
+				<sheet>
+					<group colspan="4" col="4">
+						<separator string="Recurring Maintenance Type" colspan="4" />
+						<field name="name" required="1" />
+						<field name="cost" required="1" />
+						<field name="maintenance_team_id" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<!-- Recurring Maintenance Tree View -->
+	<record id="recurring_maintenance_type_tree" model="ir.ui.view">
+		<field name="name">recurring.maintenance.type.tree</field>
+		<field name="model">recurring.maintenance.type</field>
+		<field name="arch" type="xml">
+			<tree string="Recurring Maintenance">
+				<field name="name" />
+				<field name="cost" />
+				<field name="maintenance_team_id" />
+			</tree>
+		</field>
+	</record>
+
+	<!-- Recurring Maintenance Search View -->
+	<record id="recurring_maintenance_type_view_search" model="ir.ui.view">
+		<field name="name">recurring.maintenance.type.search</field>
+		<field name="model">recurring.maintenance.type</field>
+		<field name="arch" type="xml">
+			<search string="Recurring Maintenance">
+				<field name="name" />
+			</search>
+		</field>
+	</record>
+
+	<!-- Action for Recurring Maintenance Views -->
+	<record id="action_recurring_maintenance_type_view" model="ir.actions.act_window">
+		<field name="name">Recurring Maintenance Type</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">recurring.maintenance.type</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem 
+       id="menu_recurring_maintenance_ty"
+	   name="Recurring Maintenance Type"
+       parent="maintenance.menu_maintenance_configuration"
+       action="action_recurring_maintenance_type_view" />
+
+	<!-- Recurring Maintenance Search view -->
+    <record id="property_recurring_maintenance_search" model="ir.ui.view">
+        <field name="name">recurring.maintenance.search</field>
+        <field name="model">recurring.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Recurring Maintenance Search">
+                <field name="property_id"/>
+                <field name="tenancy"/>
+                <group  expand='0' string='Group by...'>
+                    <filter string='Property' domain="[]" context="{'group_by': 'property_id'}"/>
+                    <filter string='Tenancy' domain="[]" context="{'group_by' : 'tenancy'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+	
+	<!-- Recurring Maintenance Tree View -->
+	<record id="recurring_maintenance_form" model="ir.ui.view">
+		<field name="name">recurring.maintenance.form</field>
+		<field name="model">recurring.maintenance</field>
+		<field name="arch" type="xml">
+			<form string="Recurring Maintenance">
+				<header>
+					<button name="schedule_recuring_maintenance" string="Schedule Recuring Maintenance"
+						type="object" class="oe_highlight" attrs="{'invisible': [('recuring', '=',True)]}"/>
+					
+					<field name="state" widget="statusbar" statusbar_visible="draft,added"
+						statusbar_colors='{"draft":"red", "added":"blue"}' select="0" />
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<label for="property_id" class="oe_edit_only" string="Property" />
+						<h1>
+							<field name="property_id" attrs="{'invisible':[('tenancy','=',False)]}" />
+						</h1>
+					</div>
+					<group colspan="4" col="4">
+						<field name="tenancy" required="1" domain="[('is_property','=','True')]"
+							attrs="{'readonly': [('state','=','added')]}" />
+						<newline />
+						<field name="start_date" readonly="1" />
+						<field name="end_date" readonly="1" />
+						<field name="recuring" invisible="1"/>
+					</group>
+					<notebook>
+						<page string="Scheduled Maintenance">
+							<field name="rmaintenance_line">
+								<tree string='Recuring Maintenance' limit="12" editable='top'>
+									<field name="date" />
+									<field name="maintenance_type_ids" widget="many2many_tags" />
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<!-- Recurring Maintenance Tree View -->
+	<record id="recurring_maintenance_tree" model="ir.ui.view">
+		<field name="name">recurring.maintenance.tree</field>
+		<field name="model">recurring.maintenance</field>
+		<field name="arch" type="xml">
+			<tree string="Recurring Maintenance">
+				<field name="tenancy" />
+				<field name="property_id" />
+				<field name="start_date" />
+				<field name="end_date" />
+				<field name="state" />
+			</tree>
+		</field>
+	</record>
+
+	<!-- Action for Recurring Maintenance Views -->
+	<record id="action_recurring_maintenance" model="ir.actions.act_window">
+		<field name="name">Recurring Maintenance</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">recurring.maintenance</field>
+		<field name="search_view_id" ref="property_recurring_maintenance_search"/>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem 
+	       id="menu_recurring_maintenance"
+	       name="Recurring Maintenance"
+		   parent="maintenance.menu_maintenance_title"
+		   action="action_recurring_maintenance"
+		   groups="property_maintenance.groups_property_maintenance_manager,property_maintenance.groups_property_maintenance_employee,property_maintenance.groups_property_maintenance_worker"/>
+
+	<record id="analytic_form_inherited_view" model="ir.ui.view">
+		<field name="name">inherited.analytic.form</field>
+		<field name="model">account.analytic.account</field>
+		<field name="inherit_id" ref="property_management.property_analytic_view_form" />
+		<field name="arch" type="xml">
+			<field name="contact_id" position="after">
+				<field name="main_cost"/>
+			</field>
+			<xpath expr="//page[@name='rent_schedule']" position="after">
+				<page name="maint_rent" string="Recurring Maintenance" >
+					<separator colspan="4" string="Recurring Maintenance" />
+					<field name="cost_id" attrs="{'readonly': [('state','in',('close','cancelled',))]}">
+						<tree editable="bottom">
+							<field name="maint_type" />
+							<field name="cost" />
+						</tree>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+	<menuitem 
+	       id="menu_recurring_report_sub"
+	       name="Reports"
+		   parent="maintenance.menu_maintenance_title"
+		   sequence="5"
+		   groups="property_maintenance.groups_property_maintenance_manager,property_maintenance.groups_property_maintenance_employee"
+		/>
+
+</odoo>

@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+# See LICENSE file for full copyright and licensing details
+
+from odoo import tools
+from odoo import models, fields
+
+
+class OperationalCostsReport(models.Model):
+    _name = "operational.costs.report"
+    _auto = False
+
+    active = fields.Boolean('Active')
+    parent_id = fields.Many2one(
+        'account.asset.asset', string='Parent Property')
+    type_id = fields.Many2one('property.type', string='Property Type')
+    date = fields.Date('Purchase Date')
+    operational_costs = fields.Float("Operational costs(%)")
+    name = fields.Char('Asset Name')
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, 'operational_costs_report')
+        obj = self._cr.execute("""
+                  CREATE or REPLACE VIEW operational_costs_report as
+                 SELECT id,name,active,parent_id,type_id,operational_costs,date
+                 FROM account_asset_asset""")

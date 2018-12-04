@@ -9,6 +9,13 @@ import time
 from . import VATReport_wizard
 import string
 import re
+import unicodedata
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    printable = set(string.printable)
+    res =  u"".join([c for c in nfkd_form if not unicodedata.combining(c)])[:30]
+    return filter(lambda x: x in printable, res)
 
 class inventory_excel_extended(models.TransientModel):
     _name= "sicore.extended"
@@ -66,15 +73,34 @@ class sire_report(models.TransientModel):
             if pay.tax_withholding_id:
                 if (pay.tax_withholding_id.id in whcode) or (whcode == []):
                     tstr += "{:<11}".format(pay.partner_id.main_id_number)
-                    tstr += "{:<20}".format(pay.partner_id.name[0:20])
+
+
+                    if pay.partner_id.name:
+                        tmpstr = remove_accents(pay.partner_id.name[0:20])
+                    else:
+                        tmpstr = ""
+
+                    tstr += "{:<20}".format(tmpstr)
                     street = ""
                     if pay.partner_id.street:
                         street = pay.partner_id.street
                     if pay.partner_id.street2:
                         street += pay.partner_id.street2
-                    tstr += "{:<20}".format(street[0:20])
-                    tmp = str(pay.partner_id.city)
-                    tstr += "{:<20}".format(tmp[0:20])
+
+                    if street:
+                        tmpstr = remove_accents(street[0:20])
+                    else:
+                        tmpstr = ""
+
+                    tstr += "{:<20}".format(tmpstr)
+                    tmp = pay.partner_id.city
+
+                    if tmp:
+                        tmpstr = remove_accents(tmp[0:20])
+                    else:
+                        tmpstr = ""
+
+                    tstr += "{:<20}".format(tmpstr)
                     tstr += "{:0>2}".format(pay.partner_id.state_id.afip_code)
                     tstr += "{:<8}".format(pay.partner_id.zip)
                     tstr += "{:0>2}".format(pay.partner_id.main_id_category_id.afip_code)
@@ -120,7 +146,10 @@ class sire_report(models.TransientModel):
                         tmpstr = '??????????????'
                     tstr2 += "{:0>14}".format(tmpstr.replace('-', '0'))
                     if pay.partner_id.main_id_category_id.afip_code in [83, 84] and pay.partner_id.state_id.afip_code == '99':
-                        tstr2 += "{:>30}".format(pay.partner_id.name[0:30])
+
+                        tmpstr = remove_accents(pay.partner_id.name[0:30])
+
+                        tstr2 += "{:>30}".format(tmpstr)
                         tstr2 += "{:0>1}".format('0')
                         tstr2 += "{:0>11}".format(pay.partner_id.Country.cuit_juridica[0:11])
                         tstr2 += "{:0>11}".format(pay.partner_id.main_id_number[0:11])

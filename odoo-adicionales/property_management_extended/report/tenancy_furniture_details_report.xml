@@ -1,0 +1,30 @@
+<odoo>
+
+<template id="report_tenancy_furniture_details">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-xs-12 mt32 text-center"><h3>Details Of Furniture</h3>
+                            <table style="border:solid 1px #000000"  width="100%" class="table table-bordered">
+                                <tr style="text-align:center;background-color:#e6e6e6;">
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Remarks</th>
+                                </tr>
+                                <tr style="text-align:center;" t-foreach="o.furniture_ids" t-as = "f">
+                                    <td><span t-field="f.furniture_id.name"/></td>
+                                    <td><span t-field="f.quantity"/></td>
+                                    <td><span t-field="f.remarks"/></td>
+                                </tr>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+          </t>
+</template>
+
+</odoo>

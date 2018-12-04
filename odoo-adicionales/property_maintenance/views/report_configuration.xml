@@ -1,0 +1,40 @@
+<odoo>
+
+      <!-- Maintenance invoice Report -->
+      <report 
+            id="pms_maintenance_report_id"
+            model="maintenance.request"
+            string="Property Maintenance Report"
+            report_type="qweb-pdf"
+            name ="property_maintenance.maintenance_report_template"
+            attachment_use="False"
+            file ="property_maintenance.maintenance_report_template"
+            menu="False" />
+      
+      <!-- Invoice to Owner Report -->  
+      <report 
+            id="invoice_to_owner_reports_id1"
+            model='invoice.to.owner'
+            string="Invoice to Owner"
+            report_type="qweb-pdf"
+            name ="property_maintenance.invoice_to_owner_report_template"
+            attachment_use="False"
+            file ="property_maintenance.invoice_to_owner_report_template"/> 
+
+<record id="maint_paper_format" model="report.paperformat">
+        <field name="name">Maintenance Report Format</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+        <field name="orientation">Landscape</field>
+        <field name="report_ids" eval="[(4, ref('property_maintenance.invoice_to_owner_reports_id1'))]"></field>
+    </record>
+</odoo>

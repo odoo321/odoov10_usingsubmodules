@@ -1,0 +1,329 @@
+<odoo>
+
+    <record id="commission_tree" model="ir.ui.view">
+        <field name="name">Commissions tree</field>
+        <field name="model">commission.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions">
+                <field name="name" />
+                <field name="commission_type" />
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="commission_form" model="ir.ui.view">
+        <field name="name">Commissions form</field>
+        <field name="model">commission.commission</field>
+        <field name="arch" type="xml">
+            <form string="Commission">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button"
+                            icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options="{&quot;terminology&quot;: &quot;archive&quot;}" />
+                        </button>
+                    </div>
+                    <group string="General information">
+                        <group col="4" colspan="4">
+                            <field name="name" />
+                            <field name="commission_type" />
+                            <field name="company_id" />
+                        </group>
+                    </group>
+                    <group string="Rates definition">
+                        <group col="2">
+                            <field name="fix_qty"
+                                attrs="{'invisible': [('commission_type', '!=', 'fixed')], 'required': [('commission_type', '=', 'fixed')]}" />
+                            <newline />
+                            <field name="fix_cost"
+                                attrs="{'invisible': [('commission_type', '!=', 'fixedcost')], 'required': [('commission_type', '=', 'fixedcost')]}" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_commission_type">
+        <field name="name">Commission Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commission.commission</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+       id="menu_commissions_conf"
+       name="Commissions"
+       parent="property_management.menu_configuration_main"
+       groups='property_commission.groups_commission_pay_manager'/>
+
+    <menuitem
+       id="menu_sale_commissions_ty"
+       name="Commission Types"
+       parent="menu_commissions_conf"
+       action="action_commission_type"/>
+
+    <!-- Commission Search view -->
+    <record id="property_commission_invoice_search" model="ir.ui.view">
+        <field name="name">commission.invoice.search</field>
+        <field name="model">commission.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Commission Invoice Search">
+                <field name="number"/>
+                <field name="patner_id"/>
+                <field name="date"/>
+                <field name="property_id"/>
+                <field name="tenancy"/>
+                <field name="company_id"/>
+                <group  expand='0' string='Group by...'>
+                    <filter string='Partner' context="{'group_by': 'patner_id'}"/>
+                    <filter string='Date' context="{'group_by' : 'date'}"/>
+                    <filter string='Property' context="{'group_by' : 'property_id'}"/>
+                    <filter string='Tenancy' context="{'group_by': 'tenancy'}"/>
+                    <filter string='Company' context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="commission_invoice_form" model="ir.ui.view">
+        <field name="name">Commissions Invoice form</field>
+        <field name="model">commission.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Commission Invoice">
+                <header>
+                    <button confirm="Are you sure you want to Close" name="button_close"
+                        state="draft" string="Close" type="object" class="oe_highlight"
+                        attrs="{'invisible': [['state', 'not in', ['draft']]]}" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,close"
+                        readonly='1' />
+                </header>
+                <sheet>
+                    <div class="oe_left" style="width: 300px;">
+                        <div class="oe_title">
+                            <label string="Commission#" class="oe_edit_only" />
+                            <h1>
+                                <field name="number" readonly='1'/>
+                            </h1>
+                        </div>
+                    </div>
+                    <group col='4' colspan='4'>
+                        <field name='company_id' attrs="{'readonly':[('state','==','close')]}" required="1"/>
+                        <field name='tenancy' domain="[('is_property','=','True')]" attrs="{'readonly':[('state','==','close')]}"/>
+                        <field name="patner_id" required="1" default_focus="1"
+                            options="{'always_reload':1}" context="{'show_address':1}" attrs="{'readonly':[('state','==','close')]}"/>
+                        <field name='property_id' attrs="{'readonly':[('state','==','close')]}"/>
+                        <field name='date' attrs="{'readonly':[('state','==','close')]}"/>
+                        <field name='currency_id' attrs="{'readonly':[('state','==','close')]}"/>
+                        <field name="invoiced" invisible="1"/>
+                        <field name="not_invoice" invisible="1"/>
+                        <field name="account_id"/>
+                    </group>
+                    <notebook>
+                        <page string='Commission Information' name='commission_information'>
+                            <field name="commission_line" mode="tree"
+                                options="{'reload_whole_on_button': true}" attrs="{'readonly':[('state','==','close')]}">
+                                <tree string="Commission Line" editable='top' colors="blue:rec == True ;red:inv == True ">
+                                    <field name='date' />
+                                    <field name="invoice_date"/>
+                                    <field name='name' string='Discription' />
+                                    <field name='commission_ref' string='Commission Type' required="1"/>
+                                    <field name='rent_amt' />
+                                    <field name="paid_amount"/>
+                                    <field name="p_date"/>
+                                    <field name='amount' />
+                                    <field name="company_id" invisible="1"/>
+                                    <field name='rec' readonly='1'/>
+                                    <field name='inv' invisible="1" />
+                                    <field name='invc_id' invisible="1" />
+                                    <field name="rent_schedule" invisible="1"/>
+                                    <field name="journal_name" invisible="1"/>
+                                    <button name="create_invoice" attrs="{'invisible':[('inv','=',True)]}"
+                                        icon="fa fa-gear fa-lg" class="fa fa-cog fa-spin fa-3x fa-fw"
+                                        string="Create Invoice" type="object" context="{'commission':1}" />
+                                    <button name="open_invoice" attrs="{'invisible':[('inv','=',False)]}"
+                                        icon="fa-arrow-circle-o-right fa-lg" class="fa fa-cog fa-spin fa-3x fa-fw"
+                                        string="Open Invoice" type="object" context="{'openinvoice':1}" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string='Description'>
+                           <separator string="Description"/>
+                              <field name='description' colspan='4' placeholder='Other Information'/>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right" colspan="2"
+                        name="sale_total">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="amount_total" />
+                        </div>
+                        <field name="amount_total" nolabel="1"
+                            class="oe_subtotal_footer_separator" widget="monetary"
+                            options="{'currency_field': 'currency_id'}" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="commission_invoice_tree" model="ir.ui.view">
+        <field name="name">Commissions Invoice tree</field>
+        <field name="model">commission.invoice</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions Invoice">
+                <field name="number" />
+                <field name="patner_id" />
+                <field name="date" />
+                <field name="property_id" />
+                <field name='tenancy' />
+                <field name="state" />
+                 <field name="amount_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEWS-->
+    <record id="commission_invoice_tree1" model="ir.ui.view">
+          <field name="name">Commissions Invoice tree1</field>
+          <field name="model">commission.invoice</field>
+          <field name="arch" type="xml">
+               <kanban class="oe_background_grey o_kanban_dashboard o_maintenance_team_kanban ">
+                <field name="patner_id"/>
+                    <field name="company_id"/>
+                    <field name='tenancy' />
+                    <field name="state" />
+                    <field name="date" />
+                    <field name="number" />
+                    <field name="color"/>
+                    <field name="property_id"/>
+                    <field name="amount_total"/>
+                    <field name="invoiced"/>
+                    <field name="not_invoice"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="patner_id"/></div>
+                                        <div class="o_secondary"><field name="company_id"/></div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_primary_left">
+                                         <ul>
+                                                <li><b>Number :</b> <field name="number" /> </li>
+                                                <li><b>Date :</b>  <field name="date" /></li>
+                                            </ul>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_primary_right">
+                                        <div class="row">
+                                             <ul>
+                                                <li><b>Tenancy :</b>  <field name='tenancy' /></li>
+                                                <li><b>Property :</b> <field name="property_id"/></li>
+                                             </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_to_do">
+                                            <div class="o_kanban_card_manage_title">
+                                                <span class="text-center">Pending</span>
+                                            </div>
+                                            <div class="o_primary text-center" style='color: red;'>
+                                                 <field name="not_invoice"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_to_approve">
+                                            <div class="o_kanban_card_manage_title">
+                                                <span class="text-center">Done</span>
+                                            </div>
+                                            <div class="o_primary text-center" style='color: blue;'><field name="invoiced"/></div>
+                                        </div>
+                                        <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_reports">
+                                            <div class="o_kanban_card_manage_title">
+                                                <span class="text-center">Total</span>
+                                            </div>
+                                              <div class="o_primary text-center" style='color: #21b799;'><field name="amount_total"/></div>
+                                        </div>
+                                </div>
+                            </div><div class="container o_kanban_card_manage_pane o_invisible">
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-xs-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+          </field>
+     </record>
+
+    <record id="action_commission_invoice" model="ir.actions.act_window">
+        <field name="name">Commission Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commission.invoice</field>
+        <field name="search_view_id" ref="property_commission_invoice_search"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create commission record.
+            </p>
+        </field>
+    </record>
+
+    <menuitem 
+       id="menu_commissions"
+       name="Commissions"
+       parent="property_management.menu_property_main"
+       sequence="2"
+       groups='property_commission.groups_commission_pay_manager'/>
+
+    <menuitem 
+       id="menu_invoice_commissions"
+       name="Commission Inovice"
+       parent="menu_commissions"
+       action="action_commission_invoice" />
+
+  <!--   <record id="inherited_view_acpay_form_id" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_invoice_form" />
+        <field name="arch" type="xml">
+            <field name="communication" position='after'>
+                <field name="commission_free" invisible="1"/>
+            </field>
+        </field>
+    </record> -->
+
+    <record id="inherited_view_analytic_form_id" model="ir.ui.view">
+        <field name="name">inherited.view.analytic.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="property_management.property_analytic_view_form" />
+        <field name="arch" type="xml">
+           <!--  <button name="button_receive" position="after">
+                <button name="button_to_create_commission" string="Commission" type="object"
+                            icon="fa-ticket" colspan="2" class="oe_inline oe_stat_button"
+                            attrs="{'invisible': ['|',('state','!=','open'),('commission_create', '=', True)]}" />
+            </button> 
+                <field name="rent_entry_chck" position="after">
+                    <field name="commission_create" invisible="1" />
+                </field>-->
+            <field name='contract_attachment' position='after'>
+                <field name='commission_ref' required="1"/>
+                <field name='commission_free' />
+            </field>
+        </field>
+    </record>
+
+</odoo>

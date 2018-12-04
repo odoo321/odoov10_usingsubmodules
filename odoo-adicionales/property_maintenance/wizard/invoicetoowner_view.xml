@@ -1,0 +1,37 @@
+<odoo>
+
+        <record id="wizard_invoice_to_owners" model="ir.ui.view" >
+            <field name="name">invoice.to.owner.fomr</field>
+            <field name="model">invoice.to.owner</field>
+            <field name="arch" type="xml">
+                <form string="Invoice To Owner">
+                    <separator string="Print And Send Invoice To Owner" colspan="4" />
+                    <group col="4" >
+                       <field name= "company_id" colspan="4" required="1"/>
+                        <field name="start_date" required="1"/>
+                        <field name="end_date" required="1"/>
+                    </group>
+                    <footer> 
+                        <button name="print_yes" string="Print" type="object" class="oe_highlight"/>
+                        <button name="action_invoice_sent" string="Send By Email" type="object" class="oe_highlight"/>
+                        <button string="CANCEL" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+      <record id="action_invoice_to_owner" model="ir.actions.act_window">
+            <field name="name">Send/Print Invoice</field>
+            <field name="res_model">invoice.to.owner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+	 <menuitem
+            id="menu_invoice_send_invoice_owner"
+            name="Send Invoice"
+            parent="property_maintenance.menu_recurring_report_sub"
+            action="action_invoice_to_owner"/>
+
+</odoo>

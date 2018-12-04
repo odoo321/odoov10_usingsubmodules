@@ -1,0 +1,81 @@
+<odoo> 
+<template id="property_commission_external_layout">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="property_commission.external_layout_header_c" />
+    <t t-raw="0" />
+    <t t-call="property_commission.external_layout_footer_c" />
+</template>
+
+<template id="external_layout_header_c">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.parent_id.logo" t-att-src="'data:image/png;base64,%s' % company.parent_id.logo" style="max-height: 45px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.parent_id.rml_header1"/>
+            
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="external_layout_footer_c">
+ <div class="footer">
+    <div class="text-center" >
+        <ul t-if="not company.parent_id.custom_footer" class="list-inline" style="font-size:90%; list-style-type: none;">
+                <!-- <li t-if="company.parent_id.website and company.parent_id.email or company.parent_id.website and company.parent_id.fax or company.parent_id.website and company.parent_id.phone"></li> -->
+                <li t-if="company.parent_id.website" class="fa fa-info-circle" aria-hidden="true">
+                    <span t-field="company.parent_id.website"/>
+                </li>
+                <li t-if="company.parent_id.email" class="fa fa-envelope" aria-hidden="true">
+                    <span t-field="company.parent_id.email"/>
+                </li>
+                <li t-if="company.parent_id.phone" class="fa fa-phone-square" aria-hidden="true">
+                    <span t-field="company.parent_id.phone"/>
+                </li>
+                <span>|</span> <li t-if="company.parent_id.company_registry" aria-hidden="true">
+                    <span t-field="company.parent_id.company_registry"/>
+                  </li>
+                <span>|</span> <li t-if="company.parent_id.street" aria-hidden="true">
+                    <span t-field="company.parent_id.street"/>
+                </li>
+                <span>|</span> PC.<li t-if="company.parent_id.zip" aria-hidden="true">
+                    <span t-field="company.parent_id.zip"/>
+                </li>
+               <span>|</span><li t-if="company.parent_id.city" aria-hidden="true">
+                    <span t-field="company.parent_id.city"/>
+                </li>
+               <span>|</span> Fax:<li t-if="company.parent_id.fax" aria-hidden="true">
+                    <span t-field="company.parent_id.fax"/>
+                </li>
+            </ul>
+           
+            <t t-if="company.parent_id.custom_footer">
+                <span t-raw="company.parent_id.rml_footer"/>
+            </t>
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    
+    </div>     
+</template>
+
+</odoo>

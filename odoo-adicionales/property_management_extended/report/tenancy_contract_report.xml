@@ -1,0 +1,198 @@
+<odoo>
+
+<template id="property_external_layout_con">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t> 
+
+    <t t-call="report.external_layout_header" />
+    <t t-raw="0" />
+    <t t-call="property_management_extended.external_layout_footer_con" />
+</template>
+
+<!-- <template id="external_layout_header_con">
+    <div class="header">
+            <div class="row ">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px; max-weight: 120px; align:center;"/>
+                    </div>
+                    <div class="col-xs-9 mt32 pull-left" style="text-align:justify; text-justify: inter-word;">
+                        <div t-if="company">
+                            <h3 style="font-size: 180%;margin: 0; padding: 0; text-align:justify; text-justify: inter-word;">
+                            <div style="color:#2F4B93"><strong><b><span t-field="company.rml_header1"/></b></strong></div></h3>
+                        </div>
+                        <h3 class="text-center" style="font-size: 180%; text-align:justify; text-justify: inter-word;">
+                        <div t-if="company.rml_header">
+                            <div ><strong><span t-field="company.name"/></strong></div>
+                        </div></h3>
+                    </div>
+            </div>    
+    </div>
+</template> -->
+
+<template id="external_layout_footer_con">
+    <div class="footer">
+        <div class="text-center col-xs-12">
+             <ul t-if="not company.custom_footer" class="list-inline" style="font-size:70%; list-style-type: none;">
+                <!-- <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone"></li> -->
+                <li t-if="company.website" class="fa fa-info-circle" aria-hidden="true">
+                    <span t-field="company.website"/>
+                </li>
+                <li t-if="company.email" class="fa fa-envelope" aria-hidden="true">
+                    <span t-field="company.email"/>
+                </li>
+                <li t-if="company.phone" class="fa fa-phone-square" aria-hidden="true">
+                    <span t-field="company.phone"/>
+                </li>
+                <span>|</span> <li t-if="company.company_registry" aria-hidden="true">
+                    <span t-field="company.company_registry"/>
+                  </li>
+                <span>|</span> <li t-if="company.street" aria-hidden="true">
+                    <span t-field="company.street"/>
+                </li>
+                <span>|</span> PC.<li t-if="company.zip" aria-hidden="true">
+                    <span t-field="company.zip"/>
+                </li>
+               <span>|</span><li t-if="company.city" aria-hidden="true">
+                    <span t-field="company.city"/>
+                </li>
+               <span>|</span> Fax:<li t-if="company.fax" aria-hidden="true">
+                    <span t-field="company.fax"/>
+                </li>
+            </ul>
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+            <ul class="list-inline" style="font-size:70%; list-style-type: none;">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>      
+</template>
+
+
+
+	<template id="report_tenancy_contract">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+ 				<t t-call="property_management_extended.property_external_layout_con">
+					<div class="page">
+						<div class="row">
+							<div class="col-xs-12 mt32">
+								<table class="table" width="100%">
+									<tr>
+										<td style="width: 40%; border-top: 0px;"><u><strong>Property Details</strong></u></td>
+										<td style="width: 60%;border-top: 0px;"></td>
+									</tr>
+
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Location</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.company_id.name"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Building / Flat</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.property_id.name"/></td>
+
+									</tr>
+									<tr>
+										<!-- <td style="width: 40%;border-top: 0px;">Flat Number</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"> </td> -->
+
+									</tr>
+
+
+
+									<tr>
+										<td style="width: 40%; border-top: 0px;"><u><strong>Tenant Details :</strong></u></td>
+										<td style="width: 60%;border-top: 0px;"></td>
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Tenant Name:</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.tenant_id.name"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Tenant Mobile Number :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.tenant_id.mobile"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">E-mail To Contact</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.tenant_id.email"/></td>
+									</tr>
+									<tr>
+										<td style="width: 40%; border-top: 0px;"><u><strong>Water Meter Reading</strong></u></td>
+										<td style="width: 60%;border-top: 0px;"></td>
+									</tr>
+
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Meter Serial Number :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.wmeter"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Meter Reading :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.wop_reading"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Date Of Reading :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field='o.wop_date'/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Reason For Reading</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field='o.wremarks'/></td>
+									</tr>
+									<tr>
+										<td style="width: 40%; border-top: 0px;"><u><strong>Electricity Meter Reading</strong></u></td>
+										<td style="width: 60%;border-top: 0px;"></td>
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Meter Serial Number :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.emeter"/></td>
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Meter Reading :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.eop_reading"/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Date Of Reading :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field='o.eop_date'/></td>
+
+									</tr>
+									<tr>
+										<td style="width: 40%;border-top: 0px;">Reason For Reading :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field='o.eremarks'/></td>
+									</tr>
+									 
+										<br/>
+									
+									<tr class='mt32'>
+										<td style="width: 40%;border-top: 0px;">Gate Pass Number :</td>
+										<td style="width: 60%; border-bottom: 1px solid black; border-top: 0px;" class="text-center"><span t-field="o.gate_pass"/></td>
+
+									</tr>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+
+</odoo>

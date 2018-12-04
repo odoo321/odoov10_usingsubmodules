@@ -9,8 +9,15 @@ import time
 from . import VATReport_wizard
 import string
 from odoo.exceptions import ValidationError, Warning
+import unicodedata
 
 TWOPLACES = Decimal(10) ** -2
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    printable = set(string.printable)
+    res =  u"".join([c for c in nfkd_form if not unicodedata.combining(c)])[:30]
+    return filter(lambda x: x in printable, res)
 
 def parse(str):
     printable = set(string.printable)
@@ -223,6 +230,8 @@ class citi_reports(models.TransientModel):
                     res.append("falta codigo afip para moneda " + inv.display_name)
                 if inv.currency_id != inv.company_currency_id and not inv.currency_rate:
                     res.append("falta tipo de cambio " + inv.display_name)
+                if not inv.partner_id.name:
+                    res.append("falta nombre de partner " + inv.display_name)
         return res
 
 
@@ -269,7 +278,10 @@ class citi_reports(models.TransientModel):
                     tstr = tstr + "{:0>16}".format(inv.document_number)
                 tstr = tstr + "{:0>2}".format(inv.partner_id.main_id_category_id.afip_code)
                 tstr = tstr + "{:0>20}".format(inv.partner_id.main_id_number)
-                tstr = tstr + "{:<30}".format(parse(inv.partner_id.name))
+
+                tmpstr = remove_accents(inv.partner_id.name)
+
+                tstr = tstr + "{:<30}".format(tmpstr)
 
                 total = MultiplybyRate(inv.currency_rate, inv.amount_total, inv.company_currency_id, inv.currency_id)
                 tstr = tstr + "{:0>15}".format(total)
@@ -339,29 +351,10 @@ class citi_reports(models.TransientModel):
 
         #REGINFO_CV_COMPRAS_ALICUOTAS
         for inv in invoices:
-            if "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '066' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '067' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '006' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '007' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '008' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '006' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '009' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '010' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '011' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '012' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '013' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '015' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '016' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '061' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '064' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '082' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '083' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '111' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '113' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '114' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '116' and \
-                "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '117' and \
-                inv.journal_id.use_documents:
+            if "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) not in [
+                '066','067','006','007','008','006','009','010','011',
+                '012','013','015','016','061','064','082','083','111',
+                '113','114','116','117'] and inv.journal_id.use_documents:
 
                 if inv.fiscal_position_id.afip_code == False:
                     vatcodes = self.getallcodes(inv)
@@ -484,7 +477,12 @@ class citi_reports(models.TransientModel):
                 tstr_v_cbte += "{:0>20}".format(inv.document_number[5:])
                 tstr_v_cbte += "{:0>2}".format(inv.partner_id.main_id_category_id.afip_code)
                 tstr_v_cbte += "{:0>20}".format(inv.partner_id.main_id_number)
-                tstr_v_cbte += "{:<30}".format(parse(inv.partner_id.name))
+
+
+
+                tmpstr = remove_accents(inv.partner_id.name)
+
+                tstr_v_cbte += "{:<30}".format(tmpstr)
 
                 total = MultiplybyRate(inv.currency_rate, inv.amount_total, inv.company_currency_id, inv.currency_id)
                 tstr_v_cbte += "{:0>15}".format(total)
@@ -545,17 +543,17 @@ class citi_reports(models.TransientModel):
                 if "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '066' and \
                     "{:0>3}".format(inv.journal_document_type_id.document_type_id.code) != '067':
 
-                    print "-----------"
+                    #print "-----------"
                     if inv.fiscal_position_id.afip_code == False:
                         vatcodes = self.getallcodes(inv)
-                        print "sin posicion"
+                        #print "sin posicion"
                     else:
-                        print "con posicion"
+                        #print "con posicion"
                         vatcodes = self.getallcodessl(inv)
 
-                    print inv.journal_document_type_id.document_type_id.code
-                    print inv.document_number
-                    print "vatcodes", vatcodes
+                    #print inv.journal_document_type_id.document_type_id.code
+                    #print inv.document_number
+                    #print "vatcodes", vatcodes
 
                     for code in vatcodes:
                         tstr_v_alic += "{:0>3}".format(inv.document_type_id.code)

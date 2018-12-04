@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+<!--Inherited res user form view to add tenant id-->
+        <record id="inherited_view_res_company_form" model="ir.ui.view">
+            <field name="name">inherited.view.res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="restriction_days"/>
+                </xpath>
+            </field>
+        </record>
+
+
+</odoo>

@@ -2,7 +2,7 @@
 {
     "name": "Customer Statement Report",
     'category': 'Localization/Argentina',
-    'version': '10.0.1.0',
+    'version': '10.0.1.0.1',
     'author': 'Moogah',
     'website': 'www.moogah.com',
     'summary': 'Customization of Customer Statement Report',

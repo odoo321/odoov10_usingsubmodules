@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- <record id="report_invoice_amount_to_text_fr" model="ir.ui.view"> 
+			<field name="name">amount_to_text.report_invoice_document_amount_to_text_fr</field> 
+			<field name="inherit_id" ref="account.report_invoice_document" /> <field 
+			eval="10" name="priority" /> <field name="type">qweb</field> <field name="arch" 
+			type="xml"> <data> <xpath expr="//p[@t-if='o.comment']" position="before"> 
+			<p> <strong t-if="o.partner_id.lang == 'fr_FR'">Arrêté la présente facture 
+			à la somme de:</strong> <strong t-if="o.partner_id.lang == 'en_US'">This 
+			bill is stopped at the sum of:</strong> <span t-field="o.amount_to_text"/> 
+			</p> </xpath> </data> </field> </record> -->
+
+		<record id="view_account_invoice_prop_form_inherit5" model="ir.ui.view">
+			<field name="name">view.account.invoice.form.inherit.text</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<field name="payment_term_id" position="after">
+					<field name="amount_to_text" invisible="1" />
+				</field>
+				
+				<field name="partner_bank_id" position="attributes">
+					<attribute name="invisible">False</attribute>
+				</field>
+			</field>
+		</record>
+
+
+
+		<record id="view_currency_form_label" model="ir.ui.view">
+			<field name="name">view_currency_form_label</field>
+			<field name="inherit_id" ref="base.view_currency_form" />
+			<field eval="16" name="priority" />
+			<field name="type">form</field>
+			<field name="model">res.currency</field>
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//field[@name='name']" position="after">
+						<field name="label" />
+                        <field name="floating" />
+					</xpath>
+				</data>
+			</field>
+		</record>
+		
+		
+		<record id="view_res_bank_form_inherit" model="ir.ui.view">
+			<field name="name">res.bank.form</field>
+			<field name="inherit_id" ref="base.view_res_bank_form" />
+			<field eval="16" name="priority" />
+			<field name="type">form</field>
+			<field name="model">res.bank</field>
+			<field name="arch" type="xml">
+				<field name="bic" position="after">
+					<field name="branch"/>
+				</field>
+			</field>
+		</record>
+		
+
+		
+		<record id="view_res_comapny_form_inherit" model="ir.ui.view">
+			<field name="name">res.comapany.form</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="type">form</field>
+			<field name="model">res.company</field>
+			<field name="arch" type="xml">
+				<field name="website" position="after">
+					<field name="bank_id" domain="[('company_id', '=', name)]"/>
+				</field>
+			</field>
+		</record>
+
+		
+		
+	</data>
+</odoo>

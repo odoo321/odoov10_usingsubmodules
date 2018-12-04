@@ -1,0 +1,48 @@
+<odoo>
+
+        <report
+            id = "commissiondetails_report"
+            model="commission.invoice"
+            string="Commission Details Report"
+            report_type="qweb-pdf"
+            name ="property_commission.commissiondetails_report_template_id"
+            attachment_use="False"
+            file ="property_commission.commissiondetails_report_template_id"/>
+
+        <report 
+            id="commission_owner_invoice_report"
+            model="commission.invoice.owner"
+            string="Commission Invoice Owner"
+            report_type="qweb-pdf"
+            name ="property_commission.commission_invoice_owner"
+            file ="property_commission.commission_invoice_owner"/> 
+
+         <report 
+            id="commission_for_invoice_report"
+            model="commission.invoice"
+            string="Commission Report"
+            report_type="qweb-pdf"
+            name ="property_commission.commission_report_template2"
+            attachment_use="False"
+            file ="property_commission.commission_report_template2"
+            menu="False"/> 
+
+
+
+    <record id="commission_paper_format" model="report.paperformat">
+        <field name="name">commission report format</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+        <field name="orientation">Landscape</field>
+        <field name="report_ids" eval="[(4, ref('property_commission.commission_owner_invoice_report'))]"></field>
+    </record>
+</odoo>

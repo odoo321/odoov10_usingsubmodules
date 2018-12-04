@@ -11,13 +11,15 @@
     'summary': '',
     'author': 'Business Analytics Consulting Group S.A. de C.V.',
     'website': 'http://www.bacgroup.net',
-    'version': '10.0.1.0.1',
+    'version': '10.0.1.0.3',
     'license': 'Other proprietary',
     'maintainer': 'Salvatore Josue Trimarchi Pinto',
     'contributors': '',
     'category': 'Localization',
-    'depends': ['account', 'l10n_ar_afipws_fe', 'account_document'],
-    'data': [
-               'views/views.xml',
+    'depends': [
+        'account',
+        'l10n_ar_afipws_fe',
+        'account_document',
     ],
+    'data': ['views/views.xml'],
 }

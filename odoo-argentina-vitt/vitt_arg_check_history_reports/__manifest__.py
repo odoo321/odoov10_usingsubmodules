@@ -11,7 +11,7 @@
     'summary': '',
     'author': "Moogah",
     'website': "http://www.Moogah.com",
-    'version': '10.0.1.0',
+    'version': '10.0.1.0.1',
     'license': 'Other proprietary',
     'maintainer': 'Osvaldo Jorge Gentile',
     'contributors': '',
